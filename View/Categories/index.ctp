@@ -2,7 +2,7 @@
     <div class="col-md-2">
         <h3>Menu</h3>
         <ul>
-            <li><?php echo $this->Html->link('New Category', array('controller' => 'categories', 'action' => 'add', 'full_base' => true)); ?></li>
+            <li><?php echo $this->Html->link('New Category', array('controller' => 'categories', 'action' => 'addCategory', 'full_base' => true)); ?></li>
             <li><?php echo $this->Html->link('Back', array('controller' => 'wallets', 'action' => 'index', 'full_base' => true)); ?></li>
         </ul>
     </div>
