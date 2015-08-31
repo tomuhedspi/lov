@@ -1,90 +1,42 @@
-<div class="row">
-    <div class="col-md-2">
-        <h3>Menu</h3>
-        <ul>
-            <li><?php echo $this->Html->link('New Category', array('controller' => 'categories', 'action' => 'addCategory', 'full_base' => true)); ?></li>
-            <li><?php echo $this->Html->link('Back', array('controller' => 'wallets', 'action' => 'index', 'full_base' => true)); ?></li>
-        </ul>
-    </div>
-    <div class="col-md-9">
-        <h3 class="text-center">Categories</h3>
-        <div class="col-md-6">
-            <h4 class="text-center">Spent</h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Note</th>
-                        <th class="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categoriesSpent as $category): ?>
+  <h2>Categories</h2>
+  <p>All Categories You Have :</p>    
+  
+  <div class="col-md-6"
+  <h4 Income Categories />
+  <table class="table table-hover"
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($incomeList as $category): ?>
                         <tr>
                             <td><?php echo $category['Category']['name']; ?></td>
+                            <td><?php if($category['Category']['type']==1){ echo'Income'; }else{ echo'Expens';}  ?></td>
                             <td><?php echo $category['Category']['note']; ?></td>
-                            <td class="actions">
-                                <?php
-                                echo $this->Html->link(
-                                        $this->Html->tag('i', '', array('class' => 'glyphicon glyphicon-edit')), array(
-                                    'action' => 'edit', $category['Category']['id']), array(
-                                    'class'  => 'btn btn-warning',
-                                    'escape' => false,
-                                ));
-                                ?>
-                                <?php
-                                echo $this->Form->postlink(
-                                        $this->Html->tag('i', '', array('class' => 'glyphicon glyphicon-trash')), array(
-                                    'controller' => 'categories', 'action'     => 'delete', $category['Category']['id']), array(
-                                    'confirm' => 'Are you sure?',
-                                    'class'   => 'btn btn-danger',
-                                    'escape'  => false,
-                                ));
-                                ?>
-                            </td>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <h4 class="text-center">Earned</h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Note</th>
-                        <th class="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($categoriesEarned as $category): ?>
-                        <tr>
-                            <td><?php echo $category['Category']['name']; ?></td>
-                            <td><?php echo $category['Category']['note']; ?></td>
-                            <td class="actions">
-                                <?php
-                                echo $this->Html->link(
-                                        $this->Html->tag('i', '', array('class' => 'glyphicon glyphicon-edit')), array(
-                                    'action' => 'edit', $category['Category']['id']), array(
-                                    'class'  => 'btn btn-warning',
-                                    'escape' => false,
-                                ));
-                                ?>
-                                <?php
-                                echo $this->Form->postlink(
-                                        $this->Html->tag('i', '', array('class' => 'glyphicon glyphicon-trash')), array(
-                                    'controller' => 'categories', 'action'     => 'delete', $category['Category']['id']), array(
-                                    'confirm' => 'Are you sure?',
-                                    'class'   => 'btn btn-danger',
-                                    'escape'  => false,
-                                ));
-                                ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <?php endforeach; ?>
+    </tbody>
+  </table>
+</div>
+  
+ <div class="col-md-6"
+<h4 Income Categories />
+  <table class="table table-hover"
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+       
+
+    </tbody>
+  </table>
 </div>
