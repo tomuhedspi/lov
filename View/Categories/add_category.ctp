@@ -7,16 +7,20 @@
     <legend>Add Category</legend>
     <?php 
 
-    echo $this->Form->input('categoryname',array(
+    echo $this->Form->input('name',array(
         'label'=>"Category Name ",
         'type' =>'text'
         ));
     
-    echo'Category Type:    ';
+    echo'Category Type:    '.'<br>';
     $options = array('0' => 'Expense', '1' => 'Income');
     echo $this->Form->select('type', $options);
-    
-    
+   echo '<br>';
+    echo $this->Form->input('note',array(
+        'label'=>"Discription ",
+        'type' =>'text'
+        ));
+  
     
    echo $this->Form->end('Add Category');
     ?>
