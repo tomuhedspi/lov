@@ -8,7 +8,23 @@
         
        function index()
        {
-           
+        $incomeType = 1;
+        $expensType = 0;
+        
+        //get user id
+        $userId = $this->Auth->user('id');
+        $incomeList = $this->Category->getCategoriesByType($userId,$incomeType)   ;
+        $expensList = $this->Category->getCategoriesByType($userId,$expensType);
+        
+        if (empty($incomeList) && empty($expensList)) {
+            $this->Session->setFlash(__('Empty Categories List ! Please Add Some New Categories!'), 'alert_box', array('class' => 'alert-danger'));
+        }
+
+        //set view
+        $this->set(array(
+            'incomeList'  => $incomeList,
+            'expensList' => $expensList,
+        ));
        }
        
        function  addCategory()
