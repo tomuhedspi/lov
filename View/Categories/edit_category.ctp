@@ -4,7 +4,7 @@
     <?php
         echo $this->Form->create();
     ?>
-    <legend>Add Category</legend>
+    <legend>Edit Category</legend>
     <?php 
 
     echo $this->Form->input('categoryname',array(
@@ -18,7 +18,7 @@
     
     
     
-   echo $this->Form->end('Add Category');
+   echo $this->Form->end('Update Category');
     ?>
 </fieldset>
 
