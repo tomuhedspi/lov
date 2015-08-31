@@ -30,6 +30,8 @@ echo $this->Html->script('users');
     <?php
         echo $this->Form->end('Login');
     ?>
+    
+    <div class ="row">
     <?php
     echo $this->Html->link
     (
@@ -40,8 +42,19 @@ echo $this->Html->script('users');
             'full_base' => true
         )
     );
-    
+    echo '   You Dont Have Any An Account ?-->   ';
+    echo $this->Html->link
+    (
+    'Create A New Account ?',array
+        (
+            'controller' => 'users',
+            'action' => 'register',
+            'full_base' => true
+        )
+    );
     ?>
+    </div> 
+    
 </fieldset>
 
 </div>
