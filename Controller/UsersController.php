@@ -136,7 +136,7 @@
                 return;
             }
             $this->Session->setFlash('Succesfully activated! Login and enjoy !');
-            
+            $this->redirect(array('action' => 'login'));
         }
         
        public function index()

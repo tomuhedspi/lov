@@ -22,6 +22,7 @@
          if ($id == NULL)
          {
              $this->Session->setFlash('Please Login And Try Again!');
+
              return;
          }
          //get user data input
