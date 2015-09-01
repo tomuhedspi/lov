@@ -52,7 +52,7 @@
                                 
                                    <?php 
                                         echo $this->Form->Postlink
-                                            (   'Delete',
+                                            (     $this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')),
                                                 array('controller'=>'categories','action'=>'deleteCategory', $category['Category']['id']),
                                                 array('method'=>'post','confirm'=>'Delete This Category ?','class'=>'btn btn-denger','escape'=>false)
                                             )
