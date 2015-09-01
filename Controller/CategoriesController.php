@@ -44,7 +44,6 @@ class CategoriesController extends AppController
         $id = $this->Auth->user('id');
         if ($id == NULL) {
             $this->Session->setFlash('Please Login And Try Again!');
-
             return;
         }
         //get user data input
@@ -67,7 +66,13 @@ class CategoriesController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-            
+        //auth user have logged in  yet
+        $id = $this->Auth->user('id');
+        if ($id == null) {
+            $this->Session->setFlash("Please Loggin And Try Again!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        
         $targetCategory = $this->Category->getCategoryById($id);
         if($targetCategory)
         {
