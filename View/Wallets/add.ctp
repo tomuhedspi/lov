@@ -13,6 +13,10 @@
     'type' =>'double'
     ));
 
+    echo $this->Form->input('note',array(
+    'label'=>"Discription",
+    'type' =>'text'
+    ));
    echo $this->Form->end('Add Wallet ');
 ?>
 </fieldset>
