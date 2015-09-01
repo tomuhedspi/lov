@@ -36,7 +36,7 @@ class CategoriesController extends AppController
         ));
     }
 
-    function addCategory()
+    function add()
     {
         if (!$this->request->is(array('post', 'put'))) {
             return;
@@ -52,7 +52,7 @@ class CategoriesController extends AppController
         $data = $this->request->data['Category'];
 
         //create new category then save data
-        $add = $this->Category->addCategory($data, $id);
+        $add = $this->Category->add($data, $id);
         if ($add) {
             $this->Session->setFlash(__('Add Category Successfully !'), 'alert_box', array('class' => 'alert-success'));
         } else {
@@ -62,20 +62,57 @@ class CategoriesController extends AppController
         $this->redirect(array('action' => 'index'));
     }
 
-    function editCategory()
+    function edit($id)
     {
-        
+        if (empty($id)) {
+            $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+            return;
+        }
+            
+        $targetCategory = $this->Category->getCategoryById($id);
+        if($targetCategory)
+        {
+            //set view
+            $categoryName = $targetCategory['Category']['name'];
+            $this->set(array(
+            'categoryName' => $categoryName,
+            ));
+            //save user change input data
+            //step 1 : check input method : 
+            if (!$this->request->is(array('post', 'put'))) 
+             {
+                return; 
+             }
+            //step 2 : get data from form
+            $data = $this->request->data['Category']; 
+            //step 3 : save change 
+            $edit = $this->Category->edit($data,$id);
+            if ($edit) {
+                $this->Session->setFlash(__('Update Category Successfully !'), 'alert_box', array('class' => 'alert-success'));
+            } else {
+                $this->Session->setFlash(__('Sorry,Cannot Update Category For You Now. Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
+            }
+            $this->redirect(array('action' => 'index'));
+          
+        }else
+        {
+          $this->Session->setFlash(__('Something Happen When Getting Category Name By Id, Sorry !'), 'alert_box', array('class' => 'alert-danger')); 
+          $this->redirect(array('action' => 'index'));
+        }
+      
     }
 
-    function deleteCategory()
+    function delete($id)
     {
-        
+        //ENTER CODE HERE
+         $this->Session->setFlash(__('Code Delete Doesnt Write Yet !'), 'alert_box', array('class' => 'alert-danger')); 
+          $this->redirect(array('action' => 'index'));
     }
 
     public function beforeFilter()
     {
         parent::beforeFilter();
-        // Allow users to register and logout.
+        // Allow users to do following action
         $this->Auth->allow('index'); //'addCategory','editCategory','deleteCategory'
     }
 
