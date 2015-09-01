@@ -3,7 +3,13 @@
 class Category extends AppModel
 {
 
-    public function addCategory($data, $userId)
+    public function edit($data,$id)
+    {
+        $this->id = $id;
+        return $this->save($data);
+    }
+    
+    public function add($data, $userId)
     {
         $this->create();
         $data['user_id'] = $userId;
@@ -18,6 +24,15 @@ class Category extends AppModel
                 'Category.type'           => $type,
             ),
         ));
+        return $data;
+    }
+    
+    public function getCategoryById($id)
+    {
+        $data = $this->find('first', array
+            (
+            'conditions' => array('Category.id' => $id)
+            ));
         return $data;
     }
 
