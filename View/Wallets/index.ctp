@@ -33,6 +33,6 @@
 
 <?php
 echo $this->Html->link(
-        'Create A New Category', array('controller' => 'categories', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+        'Create A New Wallet', array('controller' => 'wallets', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
 );
 ?>
