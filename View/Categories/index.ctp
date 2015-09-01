@@ -1,7 +1,6 @@
 <h2>Categories</h2>
 <p>All Categories You Have :</p>    
 
-
 <div class="col-md-6"
      <h4 Income Categories />
     <table class="table table-hover"
@@ -21,7 +20,7 @@
                     <td><?php echo (empty($category['Category']['note'])) ? '': $category['Category']['note'] ?></td>
                     <td><?php
                         echo $this->Html->link
-                                ('Edit',array('controller' => 'categories','action' => 'edit', $category['Category']['id'],'full_base' => true) );
+                                ('Edit   ',array('controller' => 'categories','action' => 'edit', $category['Category']['id'],'full_base' => true) );
                         echo $this->Form->Postlink
                                 ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'categories', 'action' => 'delete', $category['Category']['id']), array('method' => 'post', 'confirm' => 'Delete This Category ?', 'class' => 'btn btn-denger', 'escape' => false) )
                         ?>
