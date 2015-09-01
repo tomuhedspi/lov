@@ -8,6 +8,14 @@
 </head>
 <body  >
     <h1>Money Lover</h1>
-    
+    <?php
+        echo $this->Html->link(
+                'Login', array( 'action' => 'login'), array('class' => 'button', 'target' => '_blank')
+        );
+        echo '     ';
+        echo $this->Html->link(
+                'Logout', array( 'action' => 'logout'), array('class' => 'button', 'target' => '_blank')
+        );
+    ?>
 </body>
 </html>
