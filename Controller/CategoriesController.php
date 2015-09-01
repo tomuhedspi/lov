@@ -26,7 +26,6 @@ class CategoriesController extends AppController
 
         if (empty($incomeList) && empty($expensList)) {
             $this->Session->setFlash(__('Empty Categories List ! Please Add Some New Categories!'), 'alert_box', array('class' => 'alert-danger'));
-            return;
         }
 
         //set view
