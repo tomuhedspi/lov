@@ -15,7 +15,8 @@
     echo'Category Type:    '.'<br>';
     $options = array('0' => 'Expense', '1' => 'Income');
     echo $this->Form->select('type', $options);
-   echo '<br>';
+    echo '<br>';
+    
     echo $this->Form->input('note',array(
         'label'=>"Discription ",
         'type' =>'text'
