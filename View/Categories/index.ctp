@@ -16,9 +16,9 @@
         <tbody>
             <?php foreach ($incomeList as $category): ?>
                 <tr>
-                    <td><?php echo $category['Category']['name']; ?></td>
+                    <td><?php echo (empty($category['Category']['name'])) ? '': $category['Category']['name'] ?></td>
                     <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
-                    <td><?php echo $category['Category']['note']; ?></td>
+                    <td><?php echo (empty($category['Category']['note'])) ? '': $category['Category']['note'] ?></td>
                     <td><?php
                         echo $this->Html->link
                                 ('Edit',array('controller' => 'categories','action' => 'edit', $category['Category']['id'],'full_base' => true) );
