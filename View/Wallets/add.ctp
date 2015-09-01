@@ -1,13 +1,9 @@
 <div class="container">
-
+    <h2>Add A New Wallet</h2>
 <fieldset>
-    <?php
-        echo $this->Form->create();
-    ?>
-    <legend>Register</legend>
-    <?php 
-
-    echo $this->Form->input('walletname',array(
+<?php
+    echo $this->Form->create();
+    echo $this->Form->input('name',array(
         'label'=>"Wallet Name",
         'type' =>'text'
         ));
@@ -17,8 +13,8 @@
     'type' =>'double'
     ));
 
-   echo $this->Form->end('Register');
-    ?>
+   echo $this->Form->end('Add Wallet ');
+?>
 </fieldset>
 
 </div>
