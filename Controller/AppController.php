@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -18,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -30,52 +30,53 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
+
     public $components = array
-        ('DebugKit.Toolbar','Session','Flash','Cookie',
-          'Auth'=>array
+        ('DebugKit.Toolbar', 'Session', 'Flash', 'Cookie',
+        'Auth' => array
             (
-                'loginRedirect' => array
+            'loginRedirect'  => array
+                (
+                'controller' => 'users',
+                'action'     => 'index'
+            ),
+            'logoutRedirect' => array
+                (
+                'controller' => 'users',
+                'action'     => 'login'
+            ),
+            'authenticate'   => array
+                (
+                'Form' => array
                     (
-                        'controller' => 'posts',
-                        'action' => 'index'
-                     ),
-                'logoutRedirect' => array
-                    (
-                        'controller' => 'pages',
-                        'action' => 'login'
-                     ), 
-                'authenticate' => array
-                    (
-                        'Form' => array
-                            (
-                                'scope' => array('User.activated' => 1)
-                            )
-                    ),
-                'authError' => 'You must be logged in to view this page.',
-                'loginError' => 'Invalid Username or Password entered, please try again.'
-            )
-        );
-    
-    public function beforeFilter() 
+                    'scope' => array('User.activated' => 1)
+                )
+            ),
+            'authError'      => 'You must be logged in to view this page.',
+            'loginError'     => 'Invalid Username or Password entered, please try again.'
+        )
+    );
+
+    public function beforeFilter()
     {
         parent::beforeFilter();
         $this->Cookie->httpOnly = true;
         $cookie                 = $this->Cookie->read('remember');
-        if (!$this->Auth->loggedIn() && $cookie) 
-            {
-                $this->loadModel('User');
-                $user = $this->User->find('first', array(
-                    'conditions' => array(
-                        'User.username' => $cookie['username'],
-                        'User.password' => $cookie['password'],
-                    ),
-                ));
-                if ($user && !$this->Auth->login($user['User'])) {
-                    //another user loggin, destroy session and cookie
-                    $this->redirect(array('controller' => 'users', 'action' => 'logout'));
-                }
+        if (!$this->Auth->loggedIn() && $cookie) {
+            $this->loadModel('User');
+            $user = $this->User->find('first', array(
+                'conditions' => array(
+                    'User.username' => $cookie['username'],
+                    'User.password' => $cookie['password'],
+                ),
+            ));
+            if ($user && !$this->Auth->login($user['User'])) {
+                //another user loggin, destroy session and cookie
+                $this->redirect(array('controller' => 'users', 'action' => 'logout'));
             }
+        }
     }
 
 }

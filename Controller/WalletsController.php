@@ -1,6 +1,61 @@
 <?php
+//Transfer money between wallets
 class WalletsController extends AppController
 {
+    function transfer()
+    {
+        //get current user id
+        $userId = $this->Auth->user('id');
+        if ($userId== null) {
+            $this->Session->setFlash("Please Loggin First!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //get wallet list then echo to user
+        $walletList = $this->Wallet->getWalletNameID($userId);
+        //set view
+        $this->set(array( 'walletList'=>$walletList ));
+        
+        //transfer money action
+        //step1 :check valid input method
+        if (!$this->request->is(array('post', 'put'))) {
+            return; 
+        }
+        //step2 : get data input from user
+        $data= $this->request->data;
+        $fromId = $data['Wallet']['from'];
+        $toId   = $data['Wallet']['to']  ;
+        $amount =  (double)$data['Wallet']['amount'];
+        //check if wallet belongs current user
+        if(!$this->Wallet->walletBelongUser($userId,$fromId))
+        {
+            $this->Session->setFlash(__('Access Denied! Cannot Transfer Money From Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->redirect(array('action' => 'index'));
+        }
+        if(!$this->Wallet->walletBelongUser($userId,$toId))
+        {
+            $this->Session->setFlash(__('Access Denied! The Target Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->redirect(array('action' => 'index'));
+        }
+       // process transfer
+        //step1: check money in wallet and money user want to transfer
+        $moneyInFromWallet = $this->Wallet->moneyInWallet($fromId);
+        if($amount> $moneyInFromWallet){
+            echo'Money From Wallet ='.$moneyInFromWallet;
+            $this->Session->setFlash(__('The Transfer Money Amount Is Much More Than Money In Wallet You Take From, Please Enter A Smaller Number! '), 'alert_box', array('class' => 'alert-danger'));   
+            return;
+        }
+        //step2:transfer money between 2 wallet
+        $transResult = $this->Wallet->transfer($fromId,$toId,$amount);//transResult variable contain message about transfer process
+        if($transResult){
+            $this->Session->setFlash(__('Successfully Tranfer Money!'), 'alert_box', array('class' => 'alert-success')); 
+            $this->redirect(array('action' => 'index'));
+        }else{
+            $this->Session->setFlash(__('Temporary Cannot Transfer Money For You Now, Please Try Later!'), 'alert_box', array('class' => 'alert-danger')); 
+            $this->redirect(array('action' => 'index')); 
+        }
+       
+    }
+            
     function  edit($walletId)
   {
         if (empty($walletId)) {
@@ -30,6 +85,7 @@ class WalletsController extends AppController
              }
             //step 2 : get data from form
             $data = $this->request->data['Wallet']; 
+            $data['amount']= (double)$data['amount'];
             //step 3 : save change 
             $edit = $this->Wallet->edit($data,$walletId);
             if ($edit) {
@@ -64,7 +120,7 @@ class WalletsController extends AppController
         }
         
         //get list of waller of current user
-        $walletList = $this->Wallet->getWalletList($userId);
+        $walletList = $this->Wallet->getWalletList($userId);//all data of wallet
         if (empty($walletList) ) {
             $this->Session->setFlash(__('You Dont Have Any Wallet Yet!'), 'alert_box', array('class' => 'alert-danger'));
            // $this->redirect(array('action'=>'add'));
@@ -88,7 +144,7 @@ class WalletsController extends AppController
         }
         //get user data input
         $data = $this->request->data['Wallet'];
-
+        $data['amount']= (double)$data['amount'];
         //create new wallet then save data
         $add = $this->Wallet->add($data, $id);
         if ($add) {
