@@ -5,18 +5,18 @@
     <table class="table table-hover"
            <thead>
             <tr>
-                <th>Name</th>
-                <th>Money Amount</th>
-                <th>Discription</th>
+                <th>Content</th>
+                <th>Category</th>
+                <th>Wallet</th>
                 <th>Option</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($walletList as $item): ?>
                 <tr>
-                    <td><?php echo (empty($item['Wallet']['name'])) ? '': $item['Wallet']['name'] ?></td>
-                    <td><?php echo (empty($item['Wallet']['amount'])) ? '': $item['Wallet']['amount'] ?></td>
-                    <td><?php echo (empty($item['Wallet']['note'])) ? '': $item['Wallet']['note'] ?></td>
+                    <td><?php echo (empty($item['Transaction']['content'])) ? '': $item['Wallet']['name'] ?></td>
+                    <td><?php echo (empty($item['Transaction']['amount'])) ? '': $item['Wallet']['amount'] ?></td>
+                    <td><?php echo (empty($item['Transaction']['note'])) ? '': $item['Wallet']['note'] ?></td>
                     <td><?php
                         echo $this->Html->link
                                 ('Edit   ',array('controller' => 'wallets','action' => 'edit', $item['Wallet']['id'],'full_base' => true) );
@@ -34,9 +34,5 @@
 <?php
 echo $this->Html->link(
         'Create A New Wallet', array('controller' => 'wallets', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
-);
-echo '  ';
-echo $this->Html->link(
-        'Transfer Money Bettween Wallet', array('controller' => 'wallets', 'action' => 'transfer'), array('class' => 'button', 'target' => '_blank')
 );
 ?>
