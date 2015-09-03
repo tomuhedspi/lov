@@ -1,6 +1,6 @@
 <h2>Wallet</h2>  
 
-<div class="col-md-6"
+<div class="col-md-12 col-lg-12 col-sm-12"
     <h4 Wallet You Have :  />
     <table class="table table-hover"
            <thead>
