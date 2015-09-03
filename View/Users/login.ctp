@@ -23,10 +23,7 @@ echo $this->Html->script('users');
             'type'=> 'password'
         ));
     ?>
-<div class="form-group">
-    <input type="checkbox"  id="remember" />
-    <label for="remember">Remember Me</label>
-</div>
+    
     <?php
         echo $this->Form->end('Login');
     ?>

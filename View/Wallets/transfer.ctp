@@ -1,36 +1,24 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-3 " style="background-color:lavender;">
-            <?php
-                echo $this->Form->input('from', array(
-                   // 'options' => array(1, 2, 3, 3, 5),
-                    'options'=>$walletList,
-                    'empty' => '(choose one)'
-                ));
-            ?>    
-        </div>
+    <h2>Transfer Money Between Wallet</h2>
+<fieldset>
+<?php
+    echo $this->Form->create();
+    echo $this->Form->input('from',array(
+        'options'=>$walletList,
+        'empty' => '(choose one)'
+        ));
 
-        <div class="col-md-3 " style="background-color:lavenderblush;">
-            <?php
-                echo $this->Form->input('to', array(
-                    'options'=>$walletList,
-                    'empty' => '(choose one)'
-                ));
-            ?> 
-        </div>
+    echo $this->Form->input('to',array(
+        'options'=>$walletList,
+        'empty' => '(choose one)'
+    ));
 
-        <div class=" col-md-3 "  style="background-color:lavender;" >
-            <?php 
-            echo $this->Form->input('amount',array(
-            'label'=>"Transfer Amount : ",
-            'type' =>'double'
-            ));
-            ?>
-        </div>
-    </div>
-    <div class="row">
-        <?php
-        echo $this->Form->end('Transfer Now');
-       ?>
-    </div>
+    echo $this->Form->input('amount',array(
+        'label'=>"Transfer Amount : ",
+        'type' =>'double'
+    ));
+   echo $this->Form->end('Transfer Money Now ');
+?>
+</fieldset>
+
 </div>
