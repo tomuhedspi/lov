@@ -1,0 +1,1 @@
+<h2>This is set current wallet page</h2> 

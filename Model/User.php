@@ -54,6 +54,18 @@ class User extends AppModel
         )
     );
 
+    public function getUsingWallet($userId)
+    {
+        $data= $this->findById($userId);
+        return $data['User']['using_wallet'];
+    }
+    
+    public function setUserCurrentWallet($userId,$walletId)
+    {
+         $this->id = $userId;
+         return ($this->saveField('using_wallet', $walletId));
+    }
+    
     public function resetPassword($userId, $userToken, $inputData)
     {
         $m_query = array(

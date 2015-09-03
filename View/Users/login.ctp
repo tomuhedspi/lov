@@ -12,7 +12,6 @@ echo $this->Html->script('users');
     ?>
     <legend>Login</legend>
     <?php 
-
         echo $this->Form->input('username',array(
             'label'=>"User Name or Email",
             'type' =>'text'

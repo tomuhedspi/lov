@@ -10,7 +10,7 @@ class UsersController extends AppController
     {
         
     }
-
+    
     public function resetPassword($userId, $userToken)
     {
         //check request
@@ -83,10 +83,11 @@ class UsersController extends AppController
     }
 
     public function login()
-    {
-        if($this->Auth->user('id')){
+    { 
+        if( $this->Auth->user('id')){
             $this->Session->setFlash(__('You Are Loggin In!Just Go And Enjoy!'), 'alert_box', array('class' => 'alert-success'));
-            $this->redirect(array('action'=>'index'));
+
+        $this->redirect(array('action'=>'index'));
         }
         if (!$this->request->is('post')) {
             return;
@@ -134,7 +135,7 @@ class UsersController extends AppController
     {
         //check if user is logged in
         if ($this->Auth->user('id')){
-            $this->Session->setFlash('You Have Logged In. To Register A New Account, Please Logout first');
+            $this->Session->setFlash(__('You Have Logged In. To Register A New Account, Please Logout first!'), 'alert_box', array('class' => 'alert-danger'));
             return $this->redirect(array('action' => 'index'));
         }
         //check request method

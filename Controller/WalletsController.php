@@ -2,6 +2,35 @@
 //Transfer money between wallets
 class WalletsController extends AppController
 {
+    public $uses       = array('Wallet', 'User', 'Transaction', 'Category');
+    function setCurrentWallet($walletId)
+    {   //check current user
+        $userId = $this->Auth->user('id');
+        if ($userId== null) {
+            $this->Session->setFlash("Please Loggin First!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //check input method
+        if (!$this->request->is(array('post', 'put'))) {
+            return; 
+        }
+        //check input parameter
+        if (empty($walletId)) {
+            $this->Session->setFlash(__('Sorry!Something Occur With Wallet Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+            return;
+        }
+        //set current wallet to user
+        $result = $this->User->setUserCurrentWallet($userId,$walletId);
+        if(!$result){
+            $this->Session->setFlash(__('Cannot Set This Wallet To Default Now, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
+            return;   
+        }else{
+            $this->Session->setFlash(__('Successfully Set To Defaul Wallet!'), 'alert_box', array('class' => 'alert-success'));
+            $this->redirect(array('action' => 'index'));   
+        }
+        
+    }
+    
     function transfer()
     {
         //get current user id
@@ -119,6 +148,9 @@ class WalletsController extends AppController
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
         
+        //get user using wallet id :$usingWallet
+        $usingWallet=$this->User->getUsingWallet($userId);
+        
         //get list of waller of current user
         $walletList = $this->Wallet->getWalletList($userId);//all data of wallet
         if (empty($walletList) ) {
@@ -128,7 +160,7 @@ class WalletsController extends AppController
         }
 
         //set view
-        $this->set(array( 'walletList'=>$walletList ));   
+        $this->set(array( 'walletList'=>$walletList,'usingWallet'=>$usingWallet ));   
     }
             
     function  add()
