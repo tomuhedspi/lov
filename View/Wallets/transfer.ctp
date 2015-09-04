@@ -4,11 +4,13 @@
 <?php
     echo $this->Form->create();
     echo $this->Form->input('from',array(
+        'label'=>'From Wallet : ',
         'options'=>$walletList,
         'empty' => '(choose one)'
         ));
 
     echo $this->Form->input('to',array(
+        'label'=>'To Wallet : ',
         'options'=>$walletList,
         'empty' => '(choose one)'
     ));

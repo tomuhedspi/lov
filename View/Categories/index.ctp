@@ -1,8 +1,5 @@
-<h2>Categories</h2>
-<p>All Categories You Have :</p>    
-
-<div class="col-md-6"
-     <h4 Income Categories />
+<div class="col-md-6">
+    <?php echo'Income Categories ';?>
     <table class="table table-hover"
            <thead>
             <tr>
@@ -32,8 +29,8 @@
 </div>
 
 
-<div class="col-md-6"
-     <h4 Expens Categories />
+<div class="col-md-6">
+    <?php echo'Expense Categories ';?>
     <table class="table table-hover"
            <thead>
             <tr>

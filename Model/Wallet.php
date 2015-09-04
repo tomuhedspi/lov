@@ -39,7 +39,7 @@ class Wallet extends AppModel
         return $data;   
     }
     
-    public  function getWalletNameID($userId)//danh sach wallet su dung cho transfer
+    public  function getWalletNameIDList($userId)//danh sach wallet su dung cho transfer
     {
         $data = $this->find('list',
                 array(
@@ -55,7 +55,7 @@ class Wallet extends AppModel
         return $this->save($data);
     }
     
-    public function getWalletList($userId)//all data of wallet
+    public function getAllWalletOfUser($userId)//all data of wallet belong current user
     {
         $data = $this->find('all', array( 'conditions' => array(  $this->alias . '.user_id' => $userId ) ));
         return $data;

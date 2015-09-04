@@ -40,7 +40,7 @@ class WalletsController extends AppController
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
         //get wallet list then echo to user
-        $walletList = $this->Wallet->getWalletNameID($userId);
+        $walletList = $this->Wallet->getWalletNameIDList($userId);
         //set view
         $this->set(array( 'walletList'=>$walletList ));
         
@@ -57,12 +57,12 @@ class WalletsController extends AppController
         //check if wallet belongs current user
         if(!$this->Wallet->walletBelongUser($userId,$fromId))
         {
-            $this->Session->setFlash(__('Access Denied! Cannot Transfer Money From Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->Session->setFlash(__('Access Denied! Selected Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
         if(!$this->Wallet->walletBelongUser($userId,$toId))
         {
-            $this->Session->setFlash(__('Access Denied! The Target Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->Session->setFlash(__('Access Denied! Selected Category Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
        // process transfer
@@ -151,8 +151,8 @@ class WalletsController extends AppController
         //get user using wallet id :$usingWallet
         $usingWallet=$this->User->getUsingWallet($userId);
         
-        //get list of waller of current user
-        $walletList = $this->Wallet->getWalletList($userId);//all data of wallet
+        //get all waller of current user
+        $walletList = $this->Wallet->getAllWalletOfUser($userId);//all data of wallet
         if (empty($walletList) ) {
             $this->Session->setFlash(__('You Dont Have Any Wallet Yet!'), 'alert_box', array('class' => 'alert-danger'));
            // $this->redirect(array('action'=>'add'));

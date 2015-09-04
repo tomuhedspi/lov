@@ -2,7 +2,25 @@
 
 class Category extends AppModel
 {
-
+    public function categoryBelongUser($userId,$categoryId)
+    {
+        $data = $this->find('first',
+           array(
+               'conditions' => array( 'Category.id'=>$categoryId,'Category.user_id' => $userId)
+                 ));
+        return $data; 
+    }
+    
+    public function getCategoryNameIDList($userId)
+    {
+        $data = $this->find('list',
+                array(
+                    'conditions' => array('Category.user_id' => $userId),
+                    'fields' => array('Category.id', 'Category.name')
+                      ));
+        return $data;  
+    }
+    
     public function edit($data,$id)
     {
         $this->id = $id;
