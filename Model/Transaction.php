@@ -78,5 +78,17 @@ class Transaction extends AppModel
         return $data;   
     }
     
+    /*
+    * return all transaction ralated with selected wallet
+    * param: $id : category id
+    */
+    public function transactionBelongWallet($id)
+    {
+        $data = $this->find('all',array(
+               'conditions' => array('Transaction.wallet_id' => $id)
+                 ));
+        return $data;   
+    }
+    
 }
 

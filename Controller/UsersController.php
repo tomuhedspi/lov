@@ -10,7 +10,10 @@ class UsersController extends AppController
     {
         
     }
-    
+    /*
+     * reset password for user
+     * param: resetPassword param get from a link user kich from a resetpassword email
+     */
     public function resetPassword($userId, $userToken)
     {
         //check request
@@ -43,7 +46,9 @@ class UsersController extends AppController
         $this->Session->setFlash('Successfully Reset Password! Congratulation!');
         $this->redirect(array('action' => 'login'));
     }
-
+    /*
+     * a screen for user to input their account name , then it send a reset password email to email related with that acount
+     */
     public function forgotPassword()
     {    //check request method
         if (!$this->request->is(array('post', 'put'))) {
@@ -75,13 +80,17 @@ class UsersController extends AppController
         // Allow users to register and logout.
         $this->Auth->allow('register', 'login',  'activate',  'index', 'forgotPassword', 'resetPassword');
     }
-
+    /*
+     * log out
+     */
     public function logout()
     {
         $this->Session->setFlash(__('Logged Out! Please Login  To Get More And More'), 'alert_box', array('class' => 'alert-danger'));
         return $this->redirect($this->Auth->logout());
     }
-
+    /*
+     * a user screen to input data to login, if user logged it, it will redirect to index with a 'logged in' alert box
+     */
     public function login()
     { 
         if( $this->Auth->user('id')){
@@ -108,7 +117,10 @@ class UsersController extends AppController
         $this->Session->setFlash(__('Cannot login! Please check your user name and password!'), 'alert_box', array('class' => 'alert-danger'));
         return false;
     }
-
+    /*
+     * active user account use $userID, $userToken param get from a link when user kich from email
+     *the user account will activate if $userToken from link is the same as token in database
+     */
     public function activate($userID, $userToken)
     {
         //check variable
@@ -125,12 +137,16 @@ class UsersController extends AppController
         $this->Session->setFlash('Succesfully activated! Login and enjoy !');
         $this->redirect(array('action' => 'login'));
     }
-
+    /*
+     * simplely show register, login,logout button
+     */
     public function index()
     {
         
     }
-
+    /*
+     * a register page for user to get a new account
+     */
     public function register()
     {
         //check if user is logged in

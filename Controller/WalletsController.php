@@ -2,7 +2,7 @@
 //Transfer money between wallets
 class WalletsController extends AppController
 {
-    public $uses       = array('Wallet', 'User', 'Transaction', 'Category');
+    public $uses       = array('Wallet', 'Transaction', 'Category', 'User');
     /*
      * set selected wallet to current wallet of current user
      */
@@ -138,13 +138,6 @@ class WalletsController extends AppController
           }
 
       }
-    
-    function delete($walletId)
-    {
-        //TODO ENTER CODE HERE
-        $this->Session->setFlash(__('Code Delete Doesnt Write Yet !'), 'alert_box', array('class' => 'alert-danger')); 
-        $this->redirect(array('action' => 'index'));
-    }
             
     function index()//list all Wallet User have
     {
@@ -193,6 +186,42 @@ class WalletsController extends AppController
             return;
         }
         $this->redirect(array('action' => 'index'));   
+    }
+    /*
+     * delete a wallet
+     * cannot delete a delete which has transaction has relation with it
+     * $id : wallet id
+     */
+    function delete($id)
+    {
+        if (empty($id)) {
+            $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+            return;
+        }
+        //auth user have logged in  yet
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Loggin And Try Again!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //check if are there any transaction related with selected wallet
+        if ($this->Transaction->transactionBelongWallet($id)){
+          $this->_setAlertMessage(__('Cannot Delete This Category, There Are Transactions Related To It!'));
+          $this->redirect(array('action' => 'index')); 
+        }
+        //check if selected wallet belong user
+        if(!$this->Wallet->walletBelongUser($userId,$id)){
+          $this->_setAlertMessage(__('You Do Not Have Right To Delete This Wallet !'));
+          $this->redirect(array('action' => 'index'));
+        }
+        //delete wallet
+        if( $this->Wallet->delete($id)){
+             $this->Session->setFlash(__('Successfully Delete Wallet'), 'alert_box', array('class' => 'alert-success'));
+             $this->redirect(array('action' => 'index'));  
+        }  else {
+            $this->_setAlertMessage(__('Cannot Delete Wallet,Please Try Later !'));
+            $this->redirect(array('action' => 'index'));  
+        }
     }
 
 }

@@ -9,6 +9,9 @@ class CategoriesController extends AppController
     public $helpers    = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Auth');
     public $uses = array( 'Category','Transaction', 'Wallet', 'User');
+    /*
+     * show category list and it's option and link to another action
+     */
     function index()
     {
         $incomeType = 1;
@@ -34,7 +37,9 @@ class CategoriesController extends AppController
             'expensList' => $expensList,
         ));
     }
-
+    /*
+     * add a new category
+     */
     function add()
     {
         if (!$this->request->is(array('post', 'put'))) {
@@ -59,7 +64,9 @@ class CategoriesController extends AppController
         }
         $this->redirect(array('action' => 'index'));
     }
-
+    /*
+     * edit a new category
+     */
     function edit($id)
     {
         if (empty($id)) {
@@ -123,17 +130,23 @@ class CategoriesController extends AppController
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
         //check if are there any transaction related with selected category
-        if (transactionBelongCategory($id)){
+        if ($this->Transaction->transactionBelongCategory($id)){
           $this->_setAlertMessage(__('Cannot Delete This Category, There Are Transactions Related To It!'));
           $this->redirect(array('action' => 'index')); 
         }
         //check if selected category belong user
-        if(!categoryBelongUser($userId,$id)){
+        if(!$this->Category->categoryBelongUser($userId,$id)){
           $this->_setAlertMessage(__('You Do Not Have Right To Delete This Category !'));
           $this->redirect(array('action' => 'index'));
         }
         //delete category
-        $this->Category->delete($id);
+        if( $this->Category->delete($id)){
+             $this->Session->setFlash(__('Successfully Delete Category'), 'alert_box', array('class' => 'alert-success'));
+             $this->redirect(array('action' => 'index'));  
+        }  else {
+            $this->_setAlertMessage(__('Cannot Delete Category,Please Try Later !'));
+            $this->redirect(array('action' => 'index'));  
+        }
     }
 
     public function beforeFilter()
