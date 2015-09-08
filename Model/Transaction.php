@@ -1,19 +1,39 @@
 <?php
 class Transaction extends AppModel
 {
+    public $belongsTo = array(
+        'Wallet' => array(
+            'className' => 'Wallet',
+            'foreignKey' => 'wallet_id'
+        ),
+        'Category' => array(
+            'className' => 'Category',
+            'foreignKey' => 'category_id'
+        )
+    );
+    
+
+    public function transactionBelongUser($userId,$id)
+    {
+        $data = $this->find('first',array(
+               'conditions' => array( 'Transaction.id'=>$id,'Transaction.user_id' => $userId)
+                 ));
+        return $data;   
+    }
     public function add($data, $userId)
     {
         $this->create();
-        $data['user_id'] = $userId;
-        return $this->save($data);
+        $data['Transaction']['user_id'] = $userId;
+        //return $this->save($data);
+        return $this->saveAssociated($data);
+      
     }
     
-    public function  getTransactionList($userId)
+    public function  getUserTransactions($userId)//return transaction and belongs array
     {
-        $data = $this->find('list',
-                array(
+        $data = $this->find('all',array(
                     'conditions' => array('Transaction.user_id' => $userId),
-                    'fields'=>array('Transaction.id','Transaction.content','Transaction.amount','Transaction.wallet_id')
+                    'fields'=>array('Transaction.id','Transaction.content','Transaction.amount','Category.name','Wallet.name'),
                       ));
         return $data;
     }

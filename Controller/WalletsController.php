@@ -3,7 +3,8 @@
 class WalletsController extends AppController
 {
     public $uses       = array('Wallet', 'User', 'Transaction', 'Category');
-    function setCurrentWallet($walletId)
+    
+    public function setCurrentWallet($walletId)
     {   //check current user
         $userId = $this->Auth->user('id');
         if ($userId== null) {
@@ -31,7 +32,7 @@ class WalletsController extends AppController
         
     }
     
-    function transfer()
+    public function transfer()
     {
         //get current user id
         $userId = $this->Auth->user('id');
@@ -57,12 +58,12 @@ class WalletsController extends AppController
         //check if wallet belongs current user
         if(!$this->Wallet->walletBelongUser($userId,$fromId))
         {
-            $this->Session->setFlash(__('Access Denied! Selected Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->Session->setFlash(__('Access Denied! The From Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
         if(!$this->Wallet->walletBelongUser($userId,$toId))
         {
-            $this->Session->setFlash(__('Access Denied! Selected Category Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
+            $this->Session->setFlash(__('Access Denied! The To Wallet Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
        // process transfer
@@ -134,9 +135,9 @@ class WalletsController extends AppController
     
     function delete($walletId)
     {
-         //ENTER CODE HERE
-         $this->Session->setFlash(__('Code Delete Doesnt Write Yet !'), 'alert_box', array('class' => 'alert-danger')); 
-         $this->redirect(array('action' => 'index'));
+        //TODO ENTER CODE HERE
+        $this->Session->setFlash(__('Code Delete Doesnt Write Yet !'), 'alert_box', array('class' => 'alert-danger')); 
+        $this->redirect(array('action' => 'index'));
     }
             
     function index()//list all Wallet User have
@@ -152,7 +153,7 @@ class WalletsController extends AppController
         $usingWallet=$this->User->getUsingWallet($userId);
         
         //get all waller of current user
-        $walletList = $this->Wallet->getAllWalletOfUser($userId);//all data of wallet
+        $walletList = $this->Wallet->getUserWallets($userId);//all data of wallet
         if (empty($walletList) ) {
             $this->Session->setFlash(__('You Dont Have Any Wallet Yet!'), 'alert_box', array('class' => 'alert-danger'));
            // $this->redirect(array('action'=>'add'));
@@ -187,13 +188,6 @@ class WalletsController extends AppController
         }
         $this->redirect(array('action' => 'index'));   
     }
-    
-    public function beforeFilter() 
-    {
-        parent::beforeFilter();
-        // Allow users to register and logout.
-        $this->Auth->allow('register','add');
-     }
 
 }
 

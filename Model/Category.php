@@ -2,19 +2,17 @@
 
 class Category extends AppModel
 {
-    public function categoryBelongUser($userId,$categoryId)
+    public function categoryBelongUser($userId,$id)
     {
-        $data = $this->find('first',
-           array(
-               'conditions' => array( 'Category.id'=>$categoryId,'Category.user_id' => $userId)
-                 ));
+        $data = $this->find('first',array(
+               'conditions' => array( 'Category.id'=>$id,'Category.user_id' => $userId)
+                ));
         return $data; 
     }
     
     public function getCategoryNameIDList($userId)
     {
-        $data = $this->find('list',
-                array(
+        $data = $this->find('list',array(
                     'conditions' => array('Category.user_id' => $userId),
                     'fields' => array('Category.id', 'Category.name')
                       ));
@@ -41,14 +39,13 @@ class Category extends AppModel
                 $this->alias . '.user_id' => $id,
                 'Category.type'           => $type,
             ),
-        ));
+            ));
         return $data;
     }
     
     public function getCategoryById($id)
     {
-        $data = $this->find('first', array
-            (
+        $data = $this->find('first', array(
             'conditions' => array('Category.id' => $id)
             ));
         return $data;

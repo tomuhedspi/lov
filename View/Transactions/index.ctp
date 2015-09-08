@@ -15,15 +15,15 @@
         <tbody> 
             <?php foreach ($transList as $item): ?>
                 <tr>
-                    <td><?php echo (empty($item['Transaction']['content'])) ? '': $item['Transaction']['name']   ?></td>
+                    <td><?php echo (empty($item['Transaction']['content'])) ? '': $item['Transaction']['content']   ?></td>
                     <td><?php echo (empty($item['Transaction']['amount']))  ? '': $item['Transaction']['amount'] ?></td>
-                    <td><?php echo (empty($item['Transaction']['note']))    ? '': $item['Transaction']['note']   ?></td>
-                    <td><?php echo (empty($item['Transaction']['note']))    ? '': $item['Transaction']['note']   ?></td>
+                    <td><?php echo (empty($item['Category']['name']))    ? '': $item['Category']['name']   ?></td>
+                    <td><?php echo (empty($item['Wallet']['name']))    ? '': $item['Wallet']['name']   ?></td>
                     <td><?php
                         echo $this->Html->link
                                 ('Edit   ',array('controller' => 'transactions','action' => 'edit', $item['Transaction']['id'],'full_base' => true) );
                         echo $this->Form->Postlink
-                                ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'transactions', 'action' => 'delete', $item['transaction']['id']), array('method' => 'post', 'confirm' => 'Delete This Transaction ?', 'class' => 'btn btn-denger', 'escape' => false) )
+                                ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'transactions', 'action' => 'delete', $item['Transaction']['id']), array('method' => 'post', 'confirm' => 'Delete This Transaction ?', 'class' => 'btn btn-denger', 'escape' => false) );
                         ?>
                     </td>
                 </tr>

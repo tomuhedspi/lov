@@ -21,23 +21,37 @@
             <th>Wallet</th>
             <th>
                 <?php
-                    echo $this->Form->input('walletNumber',array(
+                    echo $this->Form->input('wallet_id',array(
                         'label'=>'',
                         'options'=>$walletList,
                         'empty' => '(choose one)'
                         ));
                 ?>
             </th>
+            <th>
+                <?php
+                    echo $this->Html->link(
+                            'Create A New Wallet', array('controller' => 'wallets', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+                    );
+               ?>
+            </th>
         </tr>
         <tr>
             <th>Category</th>
             <th>
                 <?php
-                    echo $this->Form->input('categoryNumber',array(
+                    echo $this->Form->input('category_id',array(
                         'label'=>'',
                         'options'=>$categoryList,
                         'empty' => '(choose one)'
                     ));
+                ?>
+            </th>
+            <th>
+                <?php
+                    echo $this->Html->link(
+                            'Create A New Category', array('controller' => 'categories', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+                    );
                 ?>
             </th>
         </tr>
