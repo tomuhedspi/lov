@@ -11,12 +11,28 @@ class Transaction extends AppModel
             'foreignKey' => 'category_id'
         )
     );
+    
+    public function getUserTransactionsDateRank($userId)
+    {
+        $data = $this->find('all',array(
+                    'conditions' => array('Transaction.user_id' => $userId),
+                    'fields'=>array('Transaction.id','Transaction.content','Transaction.amount','Transaction.modified','Transaction.created','Category.name','Wallet.name'),
+                    'order' => array('Transaction.modified')
+                      ));
+        return $data; 
+    }
     /*
      * delete transaction function, use transaction commit and rollback
      * return value : true or false (result of commit and rollback)
      * param : $id: transaction_id,  
      *         $data : data which contain updated wallet amount when delete a transaction
      */
+    public function edit($data, $id)
+    {
+        $this->id = $id;
+        return $this->saveAssociated($data);  
+    }
+    
     public function deleteTransaction($id,$data)
     {
         $dataSource = $this->getDataSource();

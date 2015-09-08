@@ -10,12 +10,98 @@ class TransactionsController extends AppController
 {
 
     public $uses = array('Transaction', 'Wallet', 'User', 'Category');
-
-    public function edit($id)
+    
+    public function  monthReport()
     {
         
     }
+    /*
+     * rank transaction by date modified
+     */
+    public function rankByDate()
+    {
+        //get user id
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Loggin Before See Transaction List!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //get user's transaction list
+        $transList = $this->Transaction->getUserTransactionsDateRank($userId);
+        //set view
+        $this->set(array('transList' => $transList)); 
+    }
+    /*
+     * a user edit page for user to put edit info
+     */
+    public function  edit($id)
+    {
+        //check variable
+        if (empty($id)) {
+            $this->Session->setFlash(__('Sorry!Sending Transaction Id Failed!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+            return;
+        }
+         // Check if user logged in
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Login First!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //check and get data of seleected transaction  id
+        $selectTransaction = $this->Transaction->transactionBelongUser($userId,$id);
+        if(!$selectTransaction){
+            $this->_setAlertMessage(__('Access Denied! Selected Wallets Do Not Belong To You'));
+            $this->redirect(array('action' => 'index'));
+        }
+        //get wallet and category list then echo to user
+        $walletList   = $this->Wallet->getWalletNameIDList($userId);
+        $categoryList = $this->Category->getCategoryNameIDList($userId);
+        //set view vars
+        $this->set(array('walletList' => $walletList, 'categoryList' => $categoryList,'item'=>$selectTransaction));
 
+        //check valid input method
+        if (!$this->request->is(array('post', 'put'))) {
+            return;
+        }
+        //get data input from user
+        $data                          = $this->request->data;
+        $walletId                      = $data['Transaction']['wallet_id'];
+        $data['Wallet']['id']          = $walletId;
+        $categoryId                    = $data['Transaction']['category_id'];
+        $data['Transaction']['amount'] = abs((double) $data['Transaction']['amount']);
+        //check if wallet belongs current user
+        $selectWallet                  = $this->Wallet->walletBelongUser($userId, $walletId);
+        if (!$selectWallet) {
+            $this->_setAlertMessage(__('Access Denied! Selected Wallets Do Not Belong To You'));
+            return;
+        }
+        $selectCategory = $this->Category->categoryBelongUser($userId, $categoryId);
+        if (!$selectCategory) {
+            $this->_setAlertMessage(__('Access Denied! Selected Category Do Not Belong To You'));
+            return;
+        }
+        //neu la category thu nhap thi tien trong vi tang len, = so tien trong vi hien co + so tien chi tieu cua transaction
+        //neu la category chi tieu thi tien trong vi mang dau am
+        if ($selectCategory['Category']['type'] == Category::EXPENSE_TYPE) {
+          $data['Transaction']['amount']= - $data['Transaction']['amount'];  
+        }
+        //caculate new money amount in wallet
+        $data['Wallet']['amount'] = $selectWallet['Wallet']['amount'] + $data['Transaction']['amount']-$selectTransaction['Transaction']['amount'] ;        
+        //check if enough money to expense
+        if ($data['Wallet']['amount'] < 0) {
+            $this->_setAlertMessage(__('Do Not Enough Money !'));
+            return;
+        }
+        //save transaction
+        $result = $this->Transaction->edit($data, $id);
+        if ($result) {
+            $this->Session->setFlash(__('Successfully Add Transaction!'), 'alert_box', array('class' => 'alert-success'));
+            $this->redirect(array('action' => 'index'));
+        } else {
+            $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
+            $this->redirect(array('action' => 'index'));
+        }       
+    }
     /* xoa mot transaction se hoan tra lai so tien ma transaction da su dung
      * param: $id: transaction id
      */
