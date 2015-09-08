@@ -7,8 +7,8 @@
             <tr>
                 <th>Content</th>
                 <th>Money Amount</th>
-                <th>Category</th>
-                <th>Wallet</th>
+                <th><?php echo $this->Html->link('Category',array('controller' => 'categories','action' => 'index','full_base' => true) ); ?></th>
+                <th><?php echo $this->Html->link('Wallet ',array('controller' => 'wallets','action' => 'index','full_base' => true) ); ?></th>
                 <th>Option</th>
             </tr>
         </thead>

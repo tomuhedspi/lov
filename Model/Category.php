@@ -2,6 +2,9 @@
 
 class Category extends AppModel
 {
+    const INCOME_TYPE  = 1;
+    const EXPENSE_TYPE = 0;
+    
     public function categoryBelongUser($userId,$id)
     {
         $data = $this->find('first',array(

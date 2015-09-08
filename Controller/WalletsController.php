@@ -3,7 +3,9 @@
 class WalletsController extends AppController
 {
     public $uses       = array('Wallet', 'User', 'Transaction', 'Category');
-    
+    /*
+     * set selected wallet to current wallet of current user
+     */
     public function setCurrentWallet($walletId)
     {   //check current user
         $userId = $this->Auth->user('id');
@@ -31,7 +33,9 @@ class WalletsController extends AppController
         }
         
     }
-    
+    /*
+     * transfer money between wallet
+     */
     public function transfer()
     {
         //get current user id
@@ -85,53 +89,55 @@ class WalletsController extends AppController
         }
        
     }
-            
+     /*
+      * edit wallet info
+      */      
     function  edit($walletId)
-  {
-        if (empty($walletId)) {
-            $this->Session->setFlash(__('Sorry!Something Occur With Wallet Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
-            return;
-        }
-                 //auth user have logged in  yet
-        $id = $this->Auth->user('id');
-        if ($id == null) {
-            $this->Session->setFlash("Please Loggin First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
-        
-        $selectedOne = $this->Wallet->getSelectedById($walletId);
-        if($selectedOne)
-        {
-            //set view
-            $selectedName = $selectedOne['Wallet']['name'];
-            $this->set(array(
-            'selectedName' => $selectedName,
-            ));
-            //save user change input data
-            //step 1 : check input method : 
-            if (!$this->request->is(array('post', 'put'))) 
-             {
-                return; 
-             }
-            //step 2 : get data from form
-            $data = $this->request->data['Wallet']; 
-            $data['amount']= (double)$data['amount'];
-            //step 3 : save change 
-            $edit = $this->Wallet->edit($data,$walletId);
-            if ($edit) {
-                $this->Session->setFlash(__('Update Wallet Successfully !'), 'alert_box', array('class' => 'alert-success'));
-            } else {
-                $this->Session->setFlash(__('Sorry,Cannot Update Wallet For You Now. Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
-            }
+    {
+          if (empty($walletId)) {
+              $this->Session->setFlash(__('Sorry!Something Occur With Wallet Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+              return;
+          }
+                   //auth user have logged in  yet
+          $id = $this->Auth->user('id');
+          if ($id == null) {
+              $this->Session->setFlash("Please Loggin First!");
+              $this->redirect(array('controller' => 'users', 'action' => 'login'));
+          }
+
+          $selectedOne = $this->Wallet->getSelectedById($walletId);
+          if($selectedOne)
+          {
+              //set view
+              $selectedName = $selectedOne['Wallet']['name'];
+              $this->set(array(
+              'selectedName' => $selectedName,
+              ));
+              //save user change input data
+              //step 1 : check input method : 
+              if (!$this->request->is(array('post', 'put'))) 
+               {
+                  return; 
+               }
+              //step 2 : get data from form
+              $data = $this->request->data['Wallet']; 
+              $data['amount']= (double)$data['amount'];
+              //step 3 : save change 
+              $edit = $this->Wallet->edit($data,$walletId);
+              if ($edit) {
+                  $this->Session->setFlash(__('Update Wallet Successfully !'), 'alert_box', array('class' => 'alert-success'));
+              } else {
+                  $this->Session->setFlash(__('Sorry,Cannot Update Wallet For You Now. Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
+              }
+              $this->redirect(array('action' => 'index'));
+
+          }else
+          {
+            $this->Session->setFlash(__('Something Happen When Getting Wallet Name By Id, Sorry !'), 'alert_box', array('class' => 'alert-danger')); 
             $this->redirect(array('action' => 'index'));
-          
-        }else
-        {
-          $this->Session->setFlash(__('Something Happen When Getting Wallet Name By Id, Sorry !'), 'alert_box', array('class' => 'alert-danger')); 
-          $this->redirect(array('action' => 'index'));
-        }
-      
-    }
+          }
+
+      }
     
     function delete($walletId)
     {

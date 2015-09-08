@@ -8,7 +8,7 @@ class CategoriesController extends AppController
 
     public $helpers    = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Auth');
-
+    public $uses = array( 'Category','Transaction', 'Wallet', 'User');
     function index()
     {
         $incomeType = 1;
@@ -106,11 +106,34 @@ class CategoriesController extends AppController
       
     }
 
+    /*
+     * delete a category
+     * cannot delete a category which has transaction has relation with it
+     */
     function delete($id)
     {
-        //ENTER CODE HERE
-         $this->Session->setFlash(__('Code Delete Doesnt Write Yet !'), 'alert_box', array('class' => 'alert-danger')); 
+        if (empty($id)) {
+            $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
+            return;
+        }
+        //auth user have logged in  yet
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Loggin And Try Again!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //check if are there any transaction related with selected category
+        if (transactionBelongCategory($id)){
+          $this->_setAlertMessage(__('Cannot Delete This Category, There Are Transactions Related To It!'));
+          $this->redirect(array('action' => 'index')); 
+        }
+        //check if selected category belong user
+        if(!categoryBelongUser($userId,$id)){
+          $this->_setAlertMessage(__('You Do Not Have Right To Delete This Category !'));
           $this->redirect(array('action' => 'index'));
+        }
+        //delete category
+        $this->Category->delete($id);
     }
 
     public function beforeFilter()

@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Add A New Transaction</h2>
 <?php
-    echo $this->Form->create();
+    echo $this->Form->create('Transaction');
     echo $this->Form->input('content',array(
         'label'=>"Transaction Content",
         'type' =>'text'

@@ -71,5 +71,15 @@ class AppController extends Controller
             }
         }
     }
+    
+    /**
+     * Set alert flash message
+     * 
+     * @param string $msg Flash message
+     */
+    protected function _setAlertMessage($msg)
+    {
+        $this->Session->setFlash($msg, 'alert_box', array('class' => 'alert-danger'));
+    }
 
 }

@@ -35,7 +35,7 @@ class Wallet extends AppModel
         $data = $this->find('first',array(
                'conditions' => array( 'Wallet.id'=>$id,'Wallet.user_id' => $userId)
                  ));
-        return $data;   
+        return $data;
     }
     
     public  function getWalletNameIDList($userId)//danh sach wallet su dung cho transfer
