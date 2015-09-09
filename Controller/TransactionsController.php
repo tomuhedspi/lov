@@ -9,11 +9,35 @@
 class TransactionsController extends AppController
 {
 
-    public $uses = array('Transaction', 'Wallet', 'User', 'Category');
-    
+    public $uses = array('Transaction', 'Category','Wallet', 'User' );
+    /*
+     * income total,expense total
+     */
     public function  monthReport()
     {
-        
+        //get user id
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Loggin Before See Transaction List!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //get transaction of user in this month
+        $end = date('Y-m-d');
+        $start= date('Y-m-d',  strtotime('-1 month'));
+        $thisMonth = $this->Transaction->getTransactionsInTime($userId,$start,$end);
+        //get income and expense total
+        $incomeTotal = 0;
+        $expenseTotal = 0;
+        foreach ($thisMonth as $item) {
+            if ($item['Category']['type'] == Category::EXPENSE_TYPE ){
+                $expenseTotal+= $item['Transaction']['amount'];
+            }else{
+                $incomeTotal+=  $item['Transaction']['amount'];
+            }
+        }
+        //set view
+        $this->set(array('transList'=>$thisMonth,'incomeTotal'=>$incomeTotal,'expenseTotal'=>$expenseTotal,'start'=>$start,'end'=>$end));
+                
     }
     /*
      * rank transaction by date modified

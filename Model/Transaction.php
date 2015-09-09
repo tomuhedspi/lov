@@ -11,7 +11,26 @@ class Transaction extends AppModel
             'foreignKey' => 'category_id'
         )
     );
+    /*
+     * user's transaction in current month
+     */
+    public function getTransactionsInTime($userId,$start,$end)
+    {    
+        $data = $this->find('all',array(
+                    'conditions' => array(
+                        'Transaction.user_id'   => $userId,
+                        'Transaction.created >=' => $start,
+                        'Transaction.created <=' => $end
+                        ),
+                    'fields'=>array('Transaction.id','Transaction.content','Transaction.amount','Transaction.modified','Transaction.created','Category.name','Category.type','Wallet.name'),
+                    'order' => array('Transaction.modified')
+                      ));
+        return $data;   
+    }
     
+    /*
+     * all user transaction rank by date
+     */
     public function getUserTransactionsDateRank($userId)
     {
         $data = $this->find('all',array(

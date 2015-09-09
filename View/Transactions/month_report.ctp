@@ -1,7 +1,11 @@
-<h2>Transaction</h2>  
+<h3>Transaction From <?php echo $start;?> To <?php echo $end; ?></h3>  
 
 <div class="col-md-12"
-    <h4 All Transaction You Made :  />
+     <?php
+     echo 'Month Income Total = '.$incomeTotal.'<br ></br>';
+     echo 'Month Expense Total = '.$expenseTotal.'<br ></br>';
+     echo 'Total Money = '.($incomeTotal+$expenseTotal).'<br ></br>';
+     ?>
     <table class="table table-hover"
            <thead>
             <tr>
@@ -9,6 +13,8 @@
                 <th>Money Amount</th>
                 <th><?php echo $this->Html->link('Category',array('controller' => 'categories','action' => 'index','full_base' => true) ); ?></th>
                 <th><?php echo $this->Html->link('Wallet ',array('controller' => 'wallets','action' => 'index','full_base' => true) ); ?></th>
+                <th>Created</th>
+                <th>Modified</th>
                 <th>Option</th>
             </tr>
         </thead>
@@ -19,6 +25,8 @@
                     <td><?php echo (empty($item['Transaction']['amount']))  ? '': $item['Transaction']['amount'] ?></td>
                     <td><?php echo (empty($item['Category']['name']))    ? '': $item['Category']['name']   ?></td>
                     <td><?php echo (empty($item['Wallet']['name']))    ? '': $item['Wallet']['name']   ?></td>
+                    <td><?php echo (empty($item['Transaction']['created']))  ? '': $item['Transaction']['created'] ?></td>
+                    <td><?php echo (empty($item['Transaction']['modified']))  ? '': $item['Transaction']['modified'] ?></td>
                     <td><?php
                         echo $this->Html->link
                                 ('Edit   ',array('controller' => 'transactions','action' => 'edit', $item['Transaction']['id'],'full_base' => true) );
