@@ -11,6 +11,28 @@ class TransactionsController extends AppController
 
     public $uses = array('Transaction', 'Category','Wallet', 'User' );
     /*
+     * view transaction by category
+     */
+    public function viewByCategory()
+    {
+        // Check if user logged in
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Login First!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        //show category list for user to select
+        $categoryList = $this->Category->getCategoryNameIDList($userId);
+        $this->set(array('categoryList' => $categoryList));
+        //get data input from user
+        $data                          = $this->request->data;
+        $categoryId                    = $data['Transaction']['category_id'];
+        //get transaction list in selected category
+        $transList = $this->Transaction->getTransactionsInCategory($userId,$categoryId);
+        //set view var
+        $this->set(array('transList'=>$transList,));
+    }
+    /*
      * income total,expense total
      */
     public function  monthReport()
@@ -47,7 +69,7 @@ class TransactionsController extends AppController
         //get user id
         $userId = $this->Auth->user('id');
         if ($userId == null) {
-            $this->Session->setFlash("Please Loggin Before See Transaction List!");
+            $this->_setAlertMessage(__('Sorry!Sending Transaction Id Failed!Please Try Later'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
         //get user's transaction list
@@ -57,6 +79,7 @@ class TransactionsController extends AppController
     }
     /*
      * a user edit page for user to put edit info
+     * @param int $id transaction id to edit, get from browser
      */
     public function  edit($id)
     {
@@ -126,10 +149,10 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         }       
     }
+    
     /* xoa mot transaction se hoan tra lai so tien ma transaction da su dung
-     * param: $id: transaction id
+     * @param int $id transaction id
      */
-
     public function delete($id)
     {
         //check variable

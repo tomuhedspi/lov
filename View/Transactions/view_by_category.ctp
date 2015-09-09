@@ -1,11 +1,14 @@
-<h3>Transaction From <?php echo $start;?> To <?php echo $end; ?></h3>  
-
-<div class="col-md-12">
-     <?php
-     echo 'Month Income Total = '.$incomeTotal.'<br ></br>';
-     echo 'Month Expense Total = '.$expenseTotal.'<br ></br>';
-     echo 'Total Money = '.($incomeTotal+$expenseTotal).'<br ></br>';
-     ?>
+<div class="col-md-12"
+<h3>Transaction In Selected Category</h3>  
+    <?php
+       echo $this->Form->create('Transaction');
+       echo $this->Form->input('category_id',array(
+           'label'=>'',
+           'options'=>$categoryList,
+           'empty' => '(choose one)'
+       ));
+       echo $this->Form->end('View Transaction ');
+   ?>
     <table class="table table-hover"
            <thead>
             <tr>
@@ -44,5 +47,17 @@
 <?php
 echo $this->Html->link(
         'Create A New Transaction', array('controller' => 'transactions', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' Or View Transaction : ';
+echo $this->Html->link(
+        'In This Month', array('controller' => 'transactions', 'action' => 'monthReport'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' - ';
+echo $this->Html->link(
+        'Rank By Date ', array('controller' => 'transactions', 'action' => 'rankByDate'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' - ';
+echo $this->Html->link(
+        'By Category', array('controller' => 'transactions', 'action' => 'viewByCategory'), array('class' => 'button', 'target' => '_blank')
 );
 ?>
