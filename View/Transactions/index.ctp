@@ -1,8 +1,6 @@
-<h2>Transaction</h2>  
-
-<div class="col-md-12"
-    <h4 All Transaction You Made :  />
-    <table class="table table-hover"
+<div class="col-md-12"/>
+<h4> All Transaction You Made </h4>
+    <table class="table table-hover">
            <thead>
             <tr>
                 <th>Content</th>
@@ -36,5 +34,17 @@
 <?php
 echo $this->Html->link(
         'Create A New Transaction', array('controller' => 'transactions', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' Or View Transaction : ';
+echo $this->Html->link(
+        'In This Month', array('controller' => 'transactions', 'action' => 'monthReport'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' - ';
+echo $this->Html->link(
+        'Rank By Date ', array('controller' => 'transactions', 'action' => 'rankByDate'), array('class' => 'button', 'target' => '_blank')
+);
+echo ' - ';
+echo $this->Html->link(
+        'By Category', array('controller' => 'transactions', 'action' => 'viewByCategory'), array('class' => 'button', 'target' => '_blank')
 );
 ?>

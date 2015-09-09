@@ -55,6 +55,8 @@ class User extends AppModel
     );
     /*
      * wallet user using 
+     * @return the id of wallet user using
+     * @param int $userId
      */
     public function getUsingWallet($userId)
     {
@@ -63,6 +65,9 @@ class User extends AppModel
     }
     /*
      * set selected wallet become user current wallet
+     * @return result of saveField function: False on failure or an array of model data on success
+     * @param int $userId
+     * @param int $walletId wallet to set to default wallet for user
      */
     public function setUserCurrentWallet($userId,$walletId)
     {
@@ -71,6 +76,10 @@ class User extends AppModel
     }
     /*
      * save new password for user
+     * @return result of save function: False on failure or an array of model data on success
+     * @param int $userId
+     * @param string $userToken
+     * @param array $inputData : contain new password for user
      */
     public function resetPassword($userId, $userToken, $inputData)
     {
@@ -97,6 +106,8 @@ class User extends AppModel
     /*
      * set a new token for username account then return it 
      * if does not exit $username account, the return data will not contain any thing
+     * @return user data array
+     * @param int $username
      */
     public function getUserEmailAndToken($username)
     {
@@ -136,6 +147,8 @@ class User extends AppModel
     /*
      * check if userID and userToken is match with databse
      * if match, set activate of user true, if not, return false
+     * @param int $userId
+     * @param string $userToken
      */
     public function activate($userId, $userToken)
     {
@@ -160,7 +173,7 @@ class User extends AppModel
     }
     /*
      * check if user data input password(use in auth component) match
-     * param: $data : user input info data
+     * @param array $data : user input info data
      */
     public function passwordsMatch($data)
     {
@@ -171,7 +184,7 @@ class User extends AppModel
     }
     /*
      * create an new account and set it activate status false(will activate later when user kick on link in activate email)
-     * param: $data: user input info data
+     * param array $data user input info data
      */
     public function createUser($data)
     {

@@ -66,6 +66,7 @@ class CategoriesController extends AppController
     }
     /*
      * edit a new category
+     * @param int $id id of category to edit
      */
     function edit($id)
     {
@@ -116,6 +117,7 @@ class CategoriesController extends AppController
     /*
      * delete a category
      * cannot delete a category which has transaction has relation with it
+     * @param int $id id of selected category to delete
      */
     function delete($id)
     {

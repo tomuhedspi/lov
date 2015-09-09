@@ -11,8 +11,11 @@ class UsersController extends AppController
         
     }
     /*
-     * reset password for user
-     * param: resetPassword param get from a link user kich from a resetpassword email
+     * reset password for user,
+     * resetPassword param get from a link user kich from a resetpassword email
+     * when user id and token from browser match with userid and usertoken in database, save new password 
+     * @param int $userId
+     * @param int $userToken
      */
     public function resetPassword($userId, $userToken)
     {
@@ -115,11 +118,13 @@ class UsersController extends AppController
             $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Cannot login! Please check your user name and password!'), 'alert_box', array('class' => 'alert-danger'));
-        return false;
+        return ;
     }
     /*
      * active user account use $userID, $userToken param get from a link when user kich from email
      *the user account will activate if $userToken from link is the same as token in database
+     * @param int $userID
+     * @param int $userToken
      */
     public function activate($userID, $userToken)
     {
@@ -174,10 +179,13 @@ class UsersController extends AppController
         }
         //send active email
         $this->_send_activate_mail($createUser['User']);
-        $this->Session->setFlash('Succesfully registed! Please check your email to finish activation!');
+        $this->Session->setFlash(__('Succesfully registed! Please check your email to finish activation!!'), 'alert_box', array('class' => 'alert-success'));
         return $this->redirect(array('action' => 'index'));
     }
-
+    /*
+     * sent activate mail to user register email
+     * @param array $data which contain user email
+     */
     private function _send_activate_mail($data)
     {
         $Email = new CakeEmail('gmail');
@@ -188,7 +196,10 @@ class UsersController extends AppController
         $Email->viewVars(array('user' => $data));
         $Email->send();
     }
-
+    /*
+     * sent reset password mail to user register email
+     * @param array $data which contain user email
+     */
     private function _send_password_reset_email($data)
     {
         $Email = new CakeEmail('gmail');

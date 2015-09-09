@@ -6,8 +6,8 @@ class Category extends AppModel
     const EXPENSE_TYPE = 0;
     /*
      * check if category belong user
-     * param : $id: category id
-     *          $userID : user id
+     * @param  int  $id category id
+     * @param  int  $userID : user id
      */
     public function categoryBelongUser($userId,$id)
     {
@@ -18,6 +18,7 @@ class Category extends AppModel
     }
     /*
      * get list of  category 's name and id only, used to show in select form
+     * @param int $userId
      */
     public function getCategoryNameIDList($userId)
     {
@@ -29,8 +30,8 @@ class Category extends AppModel
     }
     /*
      * edit category with change data in $data
-     * param : $id : category id
-     *          $data : new info data of category
+     * @param int $id  category id
+     * @param array $data  new info data of category
      */
     public function edit($data,$id)
     {
@@ -39,7 +40,7 @@ class Category extends AppModel
     }
     /*
      * add a new category with input data to user who has $userID number
-     * param : $data: info of new category
+     * @param array $data info of new category
      */
     public function add($data, $userId)
     {
@@ -49,7 +50,9 @@ class Category extends AppModel
     }
     /*
      * getcategory by type : income or expense
-     * return : array of same type category
+     * @return : array of categories which has same type
+     * @param int $userId
+     * @param int $type
      */
     public function getCategoriesByType($userId, $type)
     {
@@ -63,6 +66,7 @@ class Category extends AppModel
     }
     /*
      *get all data of selected category id
+     * @param int $id id of selected category
      */
     public function getCategoryById($id)
     {

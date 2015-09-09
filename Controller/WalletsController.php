@@ -5,6 +5,7 @@ class WalletsController extends AppController
     public $uses       = array('Wallet', 'Transaction', 'Category', 'User');
     /*
      * set selected wallet to current wallet of current user
+     * @param int $walletId
      */
     public function setCurrentWallet($walletId)
     {   //check current user
@@ -91,6 +92,7 @@ class WalletsController extends AppController
     }
      /*
       * edit wallet info
+      * @param int $walletId
       */      
     function  edit($walletId)
     {
@@ -138,8 +140,10 @@ class WalletsController extends AppController
           }
 
       }
-            
-    function index()//list all Wallet User have
+    /*
+     * list all Wallet User have
+     */        
+    function index()
     {
         //get user id
         $userId = $this->Auth->user('id');
@@ -162,7 +166,9 @@ class WalletsController extends AppController
         //set view
         $this->set(array( 'walletList'=>$walletList,'usingWallet'=>$usingWallet ));   
     }
-            
+    /*
+     * add a wallet
+     */        
     function  add()
     {
         if (!$this->request->is(array('post', 'put'))) {
@@ -190,7 +196,7 @@ class WalletsController extends AppController
     /*
      * delete a wallet
      * cannot delete a delete which has transaction has relation with it
-     * $id : wallet id
+     * @param int $id  wallet id
      */
     function delete($id)
     {
