@@ -4,10 +4,10 @@ class Wallet extends AppModel
 {
     /*
      * transfer money between 2 wallet
-     * @return true false
      * @param int $fromId id of wallet get money from
      * @param int $toId id of wallet put money to
      * @param float $amount amount of money to transfer
+     * @return true false
      */
 
     public function transfer($fromId, $toId, $amount)
@@ -34,8 +34,8 @@ class Wallet extends AppModel
 
     /*
      * get the money amount in wallet
-     * @return float money amount
      * @param int $walletId
+     * @return float money amount
      */
 
     public function moneyInWallet($walletId)
@@ -47,9 +47,9 @@ class Wallet extends AppModel
 
     /*
      * check if this wallet  belong user
-     * @return info array of wallet
      * @param int $userId
      * @param int $id wallet id
+     * @return info array of wallet
      */
 
     public function walletBelongUser($userId, $id)
@@ -62,8 +62,8 @@ class Wallet extends AppModel
 
     /*
      * get list of user's wallet , use for form select
-     * @return list of wallet, which contain only wallet id and wallet name
      * @param int $userId
+     * @return list of wallet, which contain only wallet id and wallet name
      */
 
     public function getWalletNameIDList($userId)
@@ -77,9 +77,9 @@ class Wallet extends AppModel
 
     /*
      * update data of selected wallet
-     * @return result of save functino: false or array data if success
      * @param int $id wallet id
      * @param array $data info of wallet
+     * @return result of save functino: false or array data if success
      */
 
     public function edit($data, $id)
@@ -90,8 +90,8 @@ class Wallet extends AppModel
 
     /*
      * all data of all wallet belong current user
-     * @return array data of all wallet of user which has $userId
      * @param int $userId
+     * @return array data of all wallet of user which has $userId
      */
 
     public function getUserWallets($userId)
@@ -102,9 +102,9 @@ class Wallet extends AppModel
 
     /*
      * add a wallet
-     * @return result of save functino: false or array data if success
      * @param int $userId
      * @param array $data  info of new wallet
+     * @return result of save functino: false or array data if success
      */
 
     public function add($data, $userId)
@@ -116,8 +116,8 @@ class Wallet extends AppModel
 
     /*
      * get all data of selected wallet id
-     * @return array of info of wallet
      * @param int $id wallet id
+     * @return array of info of wallet
      */
 
     function getSelectedById($id)

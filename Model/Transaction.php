@@ -19,9 +19,9 @@ class Transaction extends AppModel
 
     /*
      * get user transaction in selected category
-     * @return array of transaction which in selected category
      * @param int $userId id of current user
      * @param int $categoryId id of user's selected category
+     * @return array of transaction which in selected category
      */
 
     public function getTransactionsInCategory($userId, $categoryId)
@@ -39,10 +39,10 @@ class Transaction extends AppModel
 
     /*
      * user's transaction in current month
-     * @return array of transactions which is created between $start time and $end time
      * @param int $userId
      * @param time $start 
-     * @param time $end  
+     * @param time $end
+     * @return array of transactions which is created between $start time and $end time
      */
 
     public function getTransactionsInTime($userId, $start, $end)
@@ -61,8 +61,8 @@ class Transaction extends AppModel
 
     /*
      * all user transaction rank by date
-     * @return all info of all transaction of user which sorted by date
      * @param int $userId
+     * @return all info of all transaction of user which sorted by date
      */
 
     public function getUserTransactionsDateRank($userId)
@@ -77,9 +77,9 @@ class Transaction extends AppModel
 
     /*
      * delete transaction function, use transaction commit and rollback
-     * @return value : true or false (result of commit and rollback)
      * @param  int $id: transaction_id,  
      * @param  array  $data : data which contain updated wallet amount when delete a transaction
+     * @return value : true or false (result of commit and rollback)
      */
 
     public function edit($data, $id)
@@ -88,6 +88,13 @@ class Transaction extends AppModel
         return $this->saveAssociated($data);
     }
 
+    /*
+     * delete a transaction , with related amount in wallet, user transaction to make sure that all action come completely
+     * @param int $id id of transaction
+     * @param array $data relate data in other model, eg: delete a buy car transaction will return the money to wallet
+     * @return result of commit or rollback: true if success, false if failure
+     */
+    
     public function deleteTransaction($id, $data)
     {
         $dataSource = $this->getDataSource();
@@ -104,9 +111,9 @@ class Transaction extends AppModel
 
     /*
      * check if this transaction belong current user
-     * @return value: all data associate with selected transaction and current user ( sometime use that returnvalue, eg:money amount in wallet, so it not return true - false)
      * @param int $userId  userID 
      * @param int $id  transaction ID
+     * @return value: all data associate with selected transaction and current user ( sometime use that returnvalue, eg:money amount in wallet, so it not return true - false)
      */
 
     public function transactionBelongUser($userId, $id)
@@ -119,9 +126,9 @@ class Transaction extends AppModel
 
     /*
      * add a new transaction with related data,which contain new wallet money amount,...
-     * @return true false (result of saveAssociate function)
      * @param array $data user input data and related data( update wallet money amount)
      * @param int $userId
+     * @return true false (result of saveAssociate function)
      */
 
     public function add($data, $userId)
@@ -133,9 +140,9 @@ class Transaction extends AppModel
     }
 
     /*
-     * all transaction of user which has $userId, 
-     * @return value contain in an array(not a list )
+     * all transaction of user which has $userId
      * @param  int $userId
+     * @return value contain in an array(not a list )
      */
 
     public function getUserTransactions($userId)
@@ -148,8 +155,9 @@ class Transaction extends AppModel
     }
 
     /*
-     * @return all transaction ralated with selected category
+     * get all transaction which belong a selected category
      * @param int $id  category id
+     * @return an array of all transaction related with selected category
      */
 
     public function transactionBelongCategory($id)
@@ -161,8 +169,9 @@ class Transaction extends AppModel
     }
 
     /*
-     * @return all transaction ralated with selected wallet
+     * get all transaction which belong a selected wallet
      * @param int $id  category id
+     * @return an array of all transaction ralated with selected wallet
      */
 
     public function transactionBelongWallet($id)

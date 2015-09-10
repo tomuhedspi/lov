@@ -10,6 +10,7 @@ class Category extends AppModel
      * check if category belong user
      * @param  int  $id category id
      * @param  int  $userID : user id
+     * @return data array contain all info of category
      */
 
     public function categoryBelongUser($userId, $id)
@@ -23,6 +24,7 @@ class Category extends AppModel
     /*
      * get list of  category 's name and id only, used to show in select form
      * @param int $userId
+     * @return a list of category, which one element is an array contain category id and category name
      */
 
     public function getCategoryNameIDList($userId)
@@ -38,6 +40,7 @@ class Category extends AppModel
      * edit category with change data in $data
      * @param int $id  category id
      * @param array $data  new info data of category
+     * @return result of save() function: false if  failure, and an array of data when success
      */
 
     public function edit($data, $id)
@@ -49,6 +52,7 @@ class Category extends AppModel
     /*
      * add a new category with input data to user who has $userID number
      * @param array $data info of new category
+     * @return result of save() function: false if  failure, and an array of data when success
      */
 
     public function add($data, $userId)
@@ -60,9 +64,9 @@ class Category extends AppModel
 
     /*
      * getcategory by type : income or expense
-     * @return : array of categories which has same type
      * @param int $userId
      * @param int $type
+     * @return : array of categories which has same type
      */
 
     public function getCategoriesByType($userId, $type)
@@ -79,6 +83,7 @@ class Category extends AppModel
     /*
      * get all data of selected category id
      * @param int $id id of selected category
+     * @return : array of all info about category
      */
 
     public function getCategoryById($userId, $id)
