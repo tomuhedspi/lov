@@ -1,8 +1,8 @@
 <html>
-<head>
-<title>Activattion Notified</title>
-</head>
- 
-<body>
-</body>
+    <head>
+        <title>Activattion Notified</title>
+    </head>
+
+    <body>
+    </body>
 </html>

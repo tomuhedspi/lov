@@ -71,7 +71,7 @@ class AppController extends Controller
             }
         }
     }
-    
+
     /**
      * Set alert flash message
      * 

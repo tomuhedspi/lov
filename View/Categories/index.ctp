@@ -1,5 +1,5 @@
 <div class="col-md-6">
-    <?php echo'Income Categories ';?>
+    <?php echo'Income Categories '; ?>
     <table class="table table-hover"
            <thead>
             <tr>
@@ -12,14 +12,14 @@
         <tbody>
             <?php foreach ($incomeList as $category): ?>
                 <tr>
-                    <td><?php echo (empty($category['Category']['name'])) ? '': $category['Category']['name'] ?></td>
+                    <td><?php echo (empty($category['Category']['name'])) ? '' : $category['Category']['name'] ?></td>
                     <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
-                    <td><?php echo (empty($category['Category']['note'])) ? '': $category['Category']['note'] ?></td>
+                    <td><?php echo (empty($category['Category']['note'])) ? '' : $category['Category']['note'] ?></td>
                     <td><?php
                         echo $this->Html->link
-                                ('Edit   ',array('controller' => 'categories','action' => 'edit', $category['Category']['id'],'full_base' => true) );
+                                ('Edit   ', array('controller' => 'categories', 'action' => 'edit', $category['Category']['id'], 'full_base' => true));
                         echo $this->Form->Postlink
-                                ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'categories', 'action' => 'delete', $category['Category']['id']), array('method' => 'post', 'confirm' => 'Delete This Category ?', 'class' => 'btn btn-denger', 'escape' => false) )
+                                ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'categories', 'action' => 'delete', $category['Category']['id']), array('method' => 'post', 'confirm' => 'Delete This Category ?', 'class' => 'btn btn-denger', 'escape' => false))
                         ?>
                     </td>
                 </tr>
@@ -30,7 +30,7 @@
 
 
 <div class="col-md-6">
-    <?php echo'Expense Categories ';?>
+    <?php echo'Expense Categories '; ?>
     <table class="table table-hover"
            <thead>
             <tr>
@@ -44,19 +44,19 @@
             <?php foreach ($expensList as $category): ?>
                 <tr>
                     <td><?php echo $category['Category']['name']; ?></td>
-                   <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
+                    <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
                     <td><?php echo $category['Category']['note']; ?></td>
                     <td><?php
                         echo $this->Html->link
-                                ('Edit',array('controller' => 'categories','action' => 'edit', $category['Category']['id'],'full_base' => true) );
-               
+                                ('Edit', array('controller' => 'categories', 'action' => 'edit', $category['Category']['id'], 'full_base' => true));
+
                         echo $this->Form->Postlink
                                 ($this->Html->tag('i', 'Delete', array('class' => 'glyphicon glyphicon-trash')), array('controller' => 'categories', 'action' => 'delete', $category['Category']['id']), array('method' => 'post', 'confirm' => 'Delete This Category ?', 'class' => 'btn btn-denger', 'escape' => false)
                         )
                         ?>
                     </td>
                 </tr>
-<?php endforeach; ?>
+            <?php endforeach; ?>
 
 
         </tbody>

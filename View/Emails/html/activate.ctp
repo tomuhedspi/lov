@@ -1,16 +1,14 @@
-Dear <?php echo $user['username'];  ?> ,
+Dear <?php echo $user['username']; ?> ,
 <p>Thank you for registering. Please click the link below to activate your account.</p>
 <p>
     <?php
-    echo $this->Html->link
-            ('Activate Now !',array
-                (
-                    'controller' => 'users',
-                    'action'     => 'activate',
-                    $user['id'],
-                    $user['token'],
-                    'full_base'  => true
-                )
-            )
+    echo $this->Html->link('Activate Now !', array(
+        'controller' => 'users',
+        'action'     => 'activate',
+        $user['id'],
+        $user['token'],
+        'full_base'  => true
+        )
+    )
     ?>
 </p>

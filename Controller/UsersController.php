@@ -10,6 +10,7 @@ class UsersController extends AppController
     {
         
     }
+
     /*
      * reset password for user,
      * resetPassword param get from a link user kich from a resetpassword email
@@ -17,6 +18,7 @@ class UsersController extends AppController
      * @param int $userId
      * @param int $userToken
      */
+
     public function resetPassword($userId, $userToken)
     {
         //check request
@@ -49,9 +51,11 @@ class UsersController extends AppController
         $this->Session->setFlash('Successfully Reset Password! Congratulation!');
         $this->redirect(array('action' => 'login'));
     }
+
     /*
      * a screen for user to input their account name , then it send a reset password email to email related with that acount
      */
+
     public function forgotPassword()
     {    //check request method
         if (!$this->request->is(array('post', 'put'))) {
@@ -81,25 +85,29 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         // Allow users to register and logout.
-        $this->Auth->allow('register', 'login',  'activate',  'index', 'forgotPassword', 'resetPassword');
+        $this->Auth->allow('register', 'login', 'activate', 'index', 'forgotPassword', 'resetPassword');
     }
+
     /*
      * log out
      */
+
     public function logout()
     {
         $this->Session->setFlash(__('Logged Out! Please Login  To Get More And More'), 'alert_box', array('class' => 'alert-danger'));
         return $this->redirect($this->Auth->logout());
     }
+
     /*
      * a user screen to input data to login, if user logged it, it will redirect to index with a 'logged in' alert box
      */
+
     public function login()
-    { 
-        if( $this->Auth->user('id')){
+    {
+        if ($this->Auth->user('id')) {
             $this->Session->setFlash(__('You Are Loggin In!Just Go And Enjoy!'), 'alert_box', array('class' => 'alert-success'));
 
-        $this->redirect(array('action'=>'index'));
+            $this->redirect(array('action' => 'index'));
         }
         if (!$this->request->is('post')) {
             return;
@@ -118,14 +126,16 @@ class UsersController extends AppController
             $this->redirect(array('action' => 'index'));
         }
         $this->Session->setFlash(__('Cannot login! Please check your user name and password!'), 'alert_box', array('class' => 'alert-danger'));
-        return ;
+        return;
     }
+
     /*
      * active user account use $userID, $userToken param get from a link when user kich from email
-     *the user account will activate if $userToken from link is the same as token in database
+     * the user account will activate if $userToken from link is the same as token in database
      * @param int $userID
      * @param int $userToken
      */
+
     public function activate($userID, $userToken)
     {
         //check variable
@@ -142,20 +152,25 @@ class UsersController extends AppController
         $this->Session->setFlash('Succesfully activated! Login and enjoy !');
         $this->redirect(array('action' => 'login'));
     }
+
     /*
      * simplely show register, login,logout button
      */
+
     public function index()
     {
-        
+        $username = $this->Auth->user('username');
+        $this->set(array('username' => $username));
     }
+
     /*
      * a register page for user to get a new account
      */
+
     public function register()
     {
         //check if user is logged in
-        if ($this->Auth->user('id')){
+        if ($this->Auth->user('id')) {
             $this->Session->setFlash(__('You Have Logged In. To Register A New Account, Please Logout first!'), 'alert_box', array('class' => 'alert-danger'));
             return $this->redirect(array('action' => 'index'));
         }
@@ -182,10 +197,12 @@ class UsersController extends AppController
         $this->Session->setFlash(__('Succesfully registed! Please check your email to finish activation!!'), 'alert_box', array('class' => 'alert-success'));
         return $this->redirect(array('action' => 'index'));
     }
+
     /*
      * sent activate mail to user register email
      * @param array $data which contain user email
      */
+
     private function _send_activate_mail($data)
     {
         $Email = new CakeEmail('gmail');
@@ -196,10 +213,12 @@ class UsersController extends AppController
         $Email->viewVars(array('user' => $data));
         $Email->send();
     }
+
     /*
      * sent reset password mail to user register email
      * @param array $data which contain user email
      */
+
     private function _send_password_reset_email($data)
     {
         $Email = new CakeEmail('gmail');
