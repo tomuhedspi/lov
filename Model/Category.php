@@ -6,6 +6,21 @@ class Category extends AppModel
     const INCOME_TYPE  = 1;
     const EXPENSE_TYPE = 0;
 
+    public $validate = array(
+        'name' => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Category Name!.'
+            ),
+        ),
+        'type' => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Category Type!.'
+            ),
+        ),
+    );
+
     /*
      * check if category belong user
      * @param  int  $id category id

@@ -59,6 +59,12 @@ class WalletsController extends AppController
         if (!$this->request->is(array('post', 'put'))) {
             return;
         }
+        // Validate inputs
+        $this->Wallet->set($this->request->data);
+        $valid = $this->Wallet->validates();
+        if (!$valid) {
+            return;
+        }
         //step2 : get data input from user
         $data   = $this->request->data;
         $fromId = $data['Wallet']['from'];
@@ -121,9 +127,15 @@ class WalletsController extends AppController
             if (!$this->request->is(array('post', 'put'))) {
                 return;
             }
+            // Validate inputs
+            $this->Wallet->set($this->request->data);
+            $valid = $this->Wallet->validates();
+            if (!$valid) {
+                return;
+            }
             //step 2 : get data from form
             $data           = $this->request->data['Wallet'];
-            $data['amount'] =abs( (double) $data['amount']);
+            $data['amount'] = abs((double) $data['amount']);
             //step 3 : save change 
             $edit           = $this->Wallet->edit($data, $walletId);
             if ($edit) {
@@ -180,6 +192,12 @@ class WalletsController extends AppController
         $id = $this->Auth->user('id');
         if ($id == NULL) {
             $this->Session->setFlash('Please Login And Try Again!');
+            return;
+        }
+        // Validate inputs
+        $this->Wallet->set($this->request->data);
+        $valid = $this->Wallet->validates();
+        if (!$valid) {
             return;
         }
         //get user data input

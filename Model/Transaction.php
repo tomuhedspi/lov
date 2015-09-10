@@ -2,10 +2,41 @@
 
 class Transaction extends AppModel
 {
+
+    public $name      = 'Transaction';
+    public $validate  = array(
+        'content'   => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Money Amount Here!.'
+            ),
+        ),
+        'amount'    => array(
+            'notEmpty'      => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Money Amount Here!.'
+            ),
+            'naturalNumber' => array(
+                'rule'    => 'naturalNumber',
+                'message' => 'Natural Number Only',
+            ),
+        ),
+        'wallet_id' => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Select A Wallet!.'
+            ),
+        ),
+        'category_id' => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Select Category!.'
+            ),
+        ),
+    );
     /*
      * relation with associate model
      */
-
     public $belongsTo = array(
         'Wallet'   => array(
             'className'  => 'Wallet',
@@ -94,7 +125,7 @@ class Transaction extends AppModel
      * @param array $data relate data in other model, eg: delete a buy car transaction will return the money to wallet
      * @return result of commit or rollback: true if success, false if failure
      */
-    
+
     public function deleteTransaction($id, $data)
     {
         $dataSource = $this->getDataSource();

@@ -55,6 +55,12 @@ class CategoriesController extends AppController
             $this->Session->setFlash('Please Login And Try Again!');
             return;
         }
+        // Validate inputs
+        $this->Category->set($this->request->data);
+        $valid = $this->Category->validates();
+        if (!$valid) {
+            return;
+        }
         //get user data input
         $data = $this->request->data['Category'];
 
@@ -99,6 +105,12 @@ class CategoriesController extends AppController
         //save user change input data
         //step 1 : check input method : 
         if (!$this->request->is(array('post', 'put'))) {
+            return;
+        }
+        // Validate inputs
+        $this->Category->set($this->request->data);
+        $valid = $this->Category->validates();
+        if (!$valid) {
             return;
         }
         //step 2 : get data from form

@@ -117,6 +117,12 @@ class TransactionsController extends AppController
         if (!$this->request->is(array('post', 'put'))) {
             return;
         }
+        // Validate inputs
+        $this->Transaction->set($this->request->data);
+        $valid = $this->Transaction->validates();
+        if (!$valid) {
+            return;
+        }
         //get data input from user
         $data                          = $this->request->data;
         $walletId                      = $data['Transaction']['wallet_id'];
@@ -216,6 +222,12 @@ class TransactionsController extends AppController
 
         //check valid input method
         if (!$this->request->is(array('post', 'put'))) {
+            return;
+        }
+        // Validate inputs
+        $this->Transaction->set($this->request->data);
+        $valid = $this->Transaction->validates();
+        if (!$valid) {
             return;
         }
         //get data input from user

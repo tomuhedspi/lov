@@ -2,6 +2,38 @@
 
 class Wallet extends AppModel
 {
+
+    public $validate = array(
+        'name' => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Wallet Name!.'
+            ),
+        ),
+        'amount'  => array(
+            'notEmpty'      => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Enter Money Amount Here!.'
+            ),
+            'naturalNumber' => array(
+                'rule'    => 'naturalNumber',
+                'message' => 'Natural Number Only',
+            ),
+        ),
+        'from'    => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Select A Wallet!.'
+            ),
+        ),
+        'to'      => array(
+            'notEmpty' => array(
+                'rule'    => 'notBlank',
+                'message' => 'Please Select A Wallet!.'
+            ),
+        ),
+    );
+
     /*
      * transfer money between 2 wallet
      * @param int $fromId id of wallet get money from
