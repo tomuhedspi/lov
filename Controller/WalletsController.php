@@ -63,7 +63,7 @@ class WalletsController extends AppController
         $data   = $this->request->data;
         $fromId = $data['Wallet']['from'];
         $toId   = $data['Wallet']['to'];
-        $amount = (double) $data['Wallet']['amount'];
+        $amount = abs((double) $data['Wallet']['amount']);
         //check if wallet belongs current user
         if (!$this->Wallet->walletBelongUser($userId, $fromId)) {
             $this->Session->setFlash(__('Access Denied! The From Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
@@ -123,7 +123,7 @@ class WalletsController extends AppController
             }
             //step 2 : get data from form
             $data           = $this->request->data['Wallet'];
-            $data['amount'] = (double) $data['amount'];
+            $data['amount'] =abs( (double) $data['amount']);
             //step 3 : save change 
             $edit           = $this->Wallet->edit($data, $walletId);
             if ($edit) {
@@ -184,7 +184,7 @@ class WalletsController extends AppController
         }
         //get user data input
         $data           = $this->request->data['Wallet'];
-        $data['amount'] = (double) $data['amount'];
+        $data['amount'] = abs((double) $data['amount']);
         //create new wallet then save data
         $add            = $this->Wallet->add($data, $id);
         if ($add) {
