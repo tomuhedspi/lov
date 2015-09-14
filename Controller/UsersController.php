@@ -5,10 +5,77 @@ class UsersController extends AppController
 
     public $helpers    = array('Html', 'Form', 'Session');
     public $components = array('Session', 'Auth');
+    public $uses       = array('User', 'Image',);
+
+    /*
+     * save user upload avatar image and set it become avatar
+     */
 
     public function edit()
     {
-        
+        //check valid input method
+        if (!$this->request->is(array('post', 'put'))) {
+            return;
+        }
+        //check if user logged in and get user name
+        $username = $this->Auth->user('username');
+        if (!$username) {
+            $this->_setAlertMessage(__('Please Login First !'));
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        $img = $this->request->data['Image']['img'];
+        //check if upload file does not get any error
+        if ($img['error'] > 0) {
+            $this->Session->setFlash('Upload Error! Please Try Later!');
+            return;
+        }
+        //save user uploaded image
+        $saveImageResult = $this->saveUploadedImage($img, $username);
+        if (!$saveImageResult) {
+            $this->_setAlertMessage(__('Failed Uploading Image'));
+            return;
+        }
+        // $this->Session->setFlash(__('Upload Image Successfully'), 'alert_box', array('class' => 'alert-success'));
+        $userid           = $this->Auth->user('id');
+        $saveAvatarResult = $this->User->setAvatar($userid, $saveImageResult['Image']['url']);
+        if (!$saveAvatarResult) {
+            $this->_setAlertMessage(__('Failed Set Uploaded Image To Avatar'));
+            return;
+        }
+        $this->Session->setFlash(__('Save Avatar Successfully'), 'alert_box', array('class' => 'alert-success'));
+    }
+
+    /*
+     * save user uploaded avatar]
+     * @param array $img : img user uploaded in edit(user) form
+     * @param string $username : user for rename upload image
+     * @return false if save false, return save() result array if success
+     */
+
+    public function saveUploadedImage($img, $username)
+    {
+        //if upload successfully, move upload file to upload folder
+        $uploadFolder = WWW_ROOT . 'img' . DS . 'uploads' . DS;
+        $newName      = $username . date('_Y_m_d_H_i_s_') . $img['name']; // H:i:s
+        $fileUrl      = $uploadFolder . $newName;
+        $moveResult   = move_uploaded_file($img['tmp_name'], $fileUrl);
+
+        if (!$moveResult) {
+            return false;
+        }
+        //if upload file success, save file url to database
+        $imgInfo = array(
+            'name' => $newName,
+            'url'  => ('uploads'. DS . $newName),
+            'size' => $img['size']
+        );
+
+        $uploadResult = $this->Image->upload($imgInfo);
+        if (!$uploadResult) {
+            return false;
+        }
+        $this->Session->setFlash(__('Upload  Successfully !'), 'alert_box', array('class' => 'alert-success'));
+        return $uploadResult;
     }
 
     /*
@@ -44,7 +111,7 @@ class UsersController extends AppController
         $data        = $this->request->data['User'];
         $resetResult = $this->User->resetPassword($userId, $userToken, $data);
         if ($resetResult == FALSE) {
-            $this->Session->setFlash('Cannot reset password!Maybe your username does not match with your email or email is overdate. Please try again later! ');
+            $this->_setAlertMessage('Cannot reset password!Maybe your username does not match with your email or email is overdate. Please try again later! ');
             return;
         }
         //succesfully reset password
@@ -159,8 +226,8 @@ class UsersController extends AppController
 
     public function index()
     {
-        $username = $this->Auth->user('username');
-        $this->set(array('username' => $username));
+        $user = $this->Auth->user();
+        $this->set(array('user' => $user));
     }
 
     /*

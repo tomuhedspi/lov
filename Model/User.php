@@ -55,6 +55,16 @@ class User extends AppModel
     );
 
     /*
+     * set avatar image url to user
+     * @param int $userid
+     * @param string @avatarUrl
+     */
+    public function setAvatar($userid,$avatarUrl)
+    {
+       $this->id = $userid;
+       return ($this->saveField('avatar', $avatarUrl));
+    }
+    /*
      * wallet user using 
      * @param int $userId
      * @return the id of wallet user using

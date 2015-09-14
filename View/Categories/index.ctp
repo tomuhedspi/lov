@@ -12,7 +12,13 @@
         <tbody>
             <?php foreach ($incomeList as $category): ?>
                 <tr>
-                    <td><?php echo (empty($category['Category']['name'])) ? '' : $category['Category']['name'] ?></td>
+                    <td>
+                        <?php 
+                        echo $this->Html->link(
+                                (empty($category['Category']['name'])) ? '' : $category['Category']['name'],
+                                array('controller' => 'categories', 'action' => 'viewTransactionsInCategory', $category['Category']['id'], 'full_base' => true));
+                        ?>
+                    </td>
                     <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
                     <td><?php echo (empty($category['Category']['note'])) ? '' : $category['Category']['note'] ?></td>
                     <td><?php
@@ -43,7 +49,13 @@
         <tbody>
             <?php foreach ($expensList as $category): ?>
                 <tr>
-                    <td><?php echo $category['Category']['name']; ?></td>
+                    <td>
+                        <?php 
+                        echo $this->Html->link(
+                                (empty($category['Category']['name'])) ? '' : $category['Category']['name'],
+                                array('controller' => 'categories', 'action' => 'viewTransactionsInCategory', $category['Category']['id'], 'full_base' => true));
+                        ?>
+                    </td>
                     <td><?php echo ($category['Category']['type'] == 1) ? 'Income' : 'Expens'; ?></td>
                     <td><?php echo $category['Category']['note']; ?></td>
                     <td><?php
@@ -65,6 +77,6 @@
 
 <?php
 echo $this->Html->link(
-        'Create A New Category', array('controller' => 'categories', 'action' => 'add'), array('class' => 'button', 'target' => '_blank')
+        'Create A New Category', array('controller' => 'categories', 'action' => 'add'), array('class' => 'button',)
 );
 ?>

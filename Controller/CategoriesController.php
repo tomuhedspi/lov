@@ -11,6 +11,21 @@ class CategoriesController extends AppController
     public $uses       = array('Category', 'Transaction', 'Wallet', 'User');
 
     /*
+     * get list transaction in category, used when user click into a category in category list
+     */
+    public function viewTransactionsInCategory($categoryId)
+    {
+        $userId = $this->Auth->user('id');
+        if(!$userId){
+            $this->_setAlertMessage(__('Please Loggin First'));
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        } 
+        $data = $this->Category->getCategoryById($userId, $categoryId);
+        $transList    = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
+        //set view var
+        $this->set(array('transList' => $transList,'categoryId'=>$categoryId,'categoryName' => $data['Category']['name']));
+    }
+    /*
      * show category list and it's option and link to another action
      */
 
@@ -22,7 +37,7 @@ class CategoriesController extends AppController
         //get user id
         $id = $this->Auth->user('id');
         if ($id == null) {
-            $this->Session->setFlash("Please Loggin Before See Category List!");
+            $this->_setAlertMessage(__('Please Loggin Before See Category List'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
 

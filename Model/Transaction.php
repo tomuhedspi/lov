@@ -5,23 +5,19 @@ class Transaction extends AppModel
 
     public $name      = 'Transaction';
     public $validate  = array(
-        'content'   => array(
+        'content'     => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
             ),
         ),
-        'amount'    => array(
-            'notEmpty'      => array(
+        'amount'      => array(
+            'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
             ),
-            'naturalNumber' => array(
-                'rule'    => 'naturalNumber',
-                'message' => 'Natural Number Only',
-            ),
         ),
-        'wallet_id' => array(
+        'wallet_id'   => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Select A Wallet!.'

@@ -12,6 +12,76 @@ class TransactionsController extends AppController
     public $uses = array('Transaction', 'Category', 'Wallet', 'User');
 
     /*
+     * add a transaction with default wallet in current category, called from view transactions in category function
+     * @param int $categoryId
+     * redirect to view transactions in category function
+     */
+
+    public function addInCategory($categoryId)
+    {
+        // Check if user logged in
+        $userId = $this->Auth->user('id');
+        if ($userId == null) {
+            $this->Session->setFlash("Please Login First!");
+            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+        }
+        $walletId                           = $this->Auth->user('using_wallet');
+        //check if wallet belongs current user
+        $selectWallet                       = $this->Wallet->walletBelongUser($userId, $walletId);
+        if (!$selectWallet) {
+            $this->_setAlertMessage(__('Access Denied! Invalid Wallet'));
+            return;
+        }
+        //check if selected category belong user and get category name
+        $selectCategory = $this->Category->categoryBelongUser($userId, $categoryId);
+        if (!$selectCategory) {
+            $this->_setAlertMessage(__('Access Denied! Selected Category Do Not Belong To You'));
+            return;
+        }
+        //set view var for category name and current wallet name
+        $this->set(array('categoryName' => $selectCategory['Category']['name'],'currentWalletName'=>$selectWallet['Wallet']['name']));
+        //check valid input method
+        if (!$this->request->is(array('post', 'put'))) {
+            return;
+        }
+        // Validate inputs
+        $this->Transaction->set($this->request->data);
+        $valid = $this->Transaction->validates();
+        if (!$valid) {
+            return;
+        }
+        //get data input from user, set wallet id(defaul wallet) and set category id
+        $data                               = $this->request->data;
+  
+        $data['Wallet']['id']               = $walletId;
+        $data['Transaction']['wallet_id']   = $walletId;
+        $data['Transaction']['category_id'] = $categoryId;
+        $data['Transaction']['amount']      = abs((double) $data['Transaction']['amount']);
+
+        //neu la category thu nhap thi tien trong vi tang len, = so tien trong vi hien co + so tien chi tieu cua transaction
+        //neu la category chi tieu thi tien trong vi mang dau am
+        if ($selectCategory['Category']['type'] == Category::EXPENSE_TYPE) {
+            $data['Transaction']['amount'] = - $data['Transaction']['amount'];
+        }
+        //caculate new money amount in wallet
+        $data['Wallet']['amount'] = $selectWallet['Wallet']['amount'] + $data['Transaction']['amount'];
+        //check if enough money to expense
+        if ($data['Wallet']['amount'] < 0) {
+            $this->_setAlertMessage(__('Do Not Enough Money,Cannot Add Transaction !'));
+            return;
+        }
+        //save transaction
+        $result = $this->Transaction->add($data, $userId);
+        if ($result) {
+            $this->Session->setFlash(__('Successfully Add Transaction!'), 'alert_box', array('class' => 'alert-success'));
+            $this->redirect(array('action' => 'index'));
+        } else {
+            $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
+    /*
      * view transaction by category
      */
 
@@ -28,9 +98,13 @@ class TransactionsController extends AppController
         $this->set(array('categoryList' => $categoryList));
         //get data input from user
         $data         = $this->request->data;
+        if(!$data){
+           $transList = array(); 
+        }else{
         $categoryId   = $data['Transaction']['category_id'];
         //get transaction list in selected category
         $transList    = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
+        }
         //set view var
         $this->set(array('transList' => $transList,));
     }
@@ -266,7 +340,8 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         } else {
             $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
-            $this->redirect(array('action' => 'index'));
+           // $this->redirect(array('action' => 'index'));
+           return;
         }
     }
 

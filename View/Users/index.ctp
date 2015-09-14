@@ -1,12 +1,16 @@
 <?php
-
-echo (empty($username)) ? '' : 'WELCOME : ' . $username . ' !<br><br>Lets Go Through The Project :<br><br>';
+echo $this->Html->image($user['avatar'], array('alt' => 'Avatar'));
+echo (empty($user)) ? '' : '<br>WELCOME : ' . $user['username'] . ' !<br><br>Lets Go Through The Project :<br><br>';
 echo $this->Html->link(
         'Login', array('action' => 'login'), array('class' => 'btn btn-primary btn-sm')
 );
 echo "\t";
 echo $this->Html->link(
         'Logout', array('action' => 'logout'), array('class' => 'btn btn-success btn-sm')
+);
+echo "\t";
+echo $this->Html->link(
+        'Change Avatar', array('action' => 'edit'), array('class' => 'btn btn-danger btn-sm')
 );
 echo "\t";
 echo $this->Html->link(
@@ -18,10 +22,10 @@ echo $this->Html->link(
 );
 echo "\t";
 echo $this->Html->link(
-        'Category', array('controller' => 'categories', 'action' => 'index'), array('class' => 'btn btn-danger btn-sm',)
+        'Category', array('controller' => 'categories', 'action' => 'index'), array('class' => 'btn btn-primary btn-sm',)
 );
 echo "\t";
 echo $this->Html->link(
-        'Wallet', array('controller' => 'wallets', 'action' => 'index'), array('class' => 'btn btn-primary btn-sm',)
+        'Wallet', array('controller' => 'wallets', 'action' => 'index'), array('class' => 'btn btn-danger btn-sm',)
 );
 echo "\t";
