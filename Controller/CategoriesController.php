@@ -10,25 +10,25 @@ class CategoriesController extends AppController
     public $components = array('Session', 'Auth');
     public $uses       = array('Category', 'Transaction', 'Wallet', 'User');
 
-    /*
+    /**
      * get list transaction in category, used when user click into a category in category list
      */
     public function viewTransactionsInCategory($categoryId)
     {
         $userId = $this->Auth->user('id');
-        if(!$userId){
+        if (!$userId) {
             $this->_setAlertMessage(__('Please Loggin First'));
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        } 
-        $data = $this->Category->getCategoryById($userId, $categoryId);
-        $transList    = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
+        }
+        $data      = $this->Category->getCategoryById($userId, $categoryId);
+        $transList = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
         //set view var
-        $this->set(array('transList' => $transList,'categoryId'=>$categoryId,'categoryName' => $data['Category']['name']));
+        $this->set(array('transList' => $transList, 'categoryId' => $categoryId, 'categoryName' => $data['Category']['name']));
     }
-    /*
+
+    /**
      * show category list and it's option and link to another action
      */
-
     function index()
     {
         $incomeType = 1;
@@ -55,10 +55,9 @@ class CategoriesController extends AppController
         ));
     }
 
-    /*
+    /**
      * add a new category
      */
-
     function add()
     {
         if (!$this->request->is(array('post', 'put'))) {
@@ -90,11 +89,10 @@ class CategoriesController extends AppController
         $this->redirect(array('action' => 'index'));
     }
 
-    /*
+    /**
      * edit a new category
      * @param int $id id of category to edit
      */
-
     function edit($id)
     {
         if (empty($id)) {
@@ -140,12 +138,11 @@ class CategoriesController extends AppController
         $this->redirect(array('action' => 'index'));
     }
 
-    /*
+    /**
      * delete a category
      * cannot delete a category which has transaction has relation with it
      * @param int $id id of selected category to delete
      */
-
     function delete($id)
     {
         if (empty($id)) {

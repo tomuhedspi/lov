@@ -4,13 +4,13 @@ class Wallet extends AppModel
 {
 
     public $validate = array(
-        'name' => array(
+        'name'   => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Wallet Name!.'
             ),
         ),
-        'amount'  => array(
+        'amount' => array(
             'notEmpty'      => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
@@ -20,13 +20,13 @@ class Wallet extends AppModel
                 'message' => 'Natural Number Only',
             ),
         ),
-        'from'    => array(
+        'from'   => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Select A Wallet!.'
             ),
         ),
-        'to'      => array(
+        'to'     => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Select A Wallet!.'
@@ -34,14 +34,13 @@ class Wallet extends AppModel
         ),
     );
 
-    /*
+    /**
      * transfer money between 2 wallet
      * @param int $fromId id of wallet get money from
      * @param int $toId id of wallet put money to
      * @param float $amount amount of money to transfer
      * @return true false
      */
-
     public function transfer($fromId, $toId, $amount)
     {
         //start transaction
@@ -64,12 +63,11 @@ class Wallet extends AppModel
         }
     }
 
-    /*
+    /**
      * get the money amount in wallet
      * @param int $walletId
      * @return float money amount
      */
-
     public function moneyInWallet($walletId)
     {
         $this->id = $walletId;
@@ -77,13 +75,12 @@ class Wallet extends AppModel
         return $data['Wallet']['amount'];
     }
 
-    /*
+    /**
      * check if this wallet  belong user
      * @param int $userId
      * @param int $id wallet id
      * @return info array of wallet
      */
-
     public function walletBelongUser($userId, $id)
     {
         $data = $this->find('first', array(
@@ -92,12 +89,11 @@ class Wallet extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * get list of user's wallet , use for form select
      * @param int $userId
      * @return list of wallet, which contain only wallet id and wallet name
      */
-
     public function getWalletNameIDList($userId)
     {
         $data = $this->find('list', array(
@@ -107,38 +103,35 @@ class Wallet extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * update data of selected wallet
      * @param int $id wallet id
      * @param array $data info of wallet
      * @return result of save functino: false or array data if success
      */
-
     public function edit($data, $id)
     {
         $this->id = $id;
         return $this->save($data);
     }
 
-    /*
+    /**
      * all data of all wallet belong current user
      * @param int $userId
      * @return array data of all wallet of user which has $userId
      */
-
     public function getUserWallets($userId)
     {
         $data = $this->find('all', array('conditions' => array($this->alias . '.user_id' => $userId)));
         return $data;
     }
 
-    /*
+    /**
      * add a wallet
      * @param int $userId
      * @param array $data  info of new wallet
      * @return result of save functino: false or array data if success
      */
-
     public function add($data, $userId)
     {
         $this->create();
@@ -146,12 +139,11 @@ class Wallet extends AppModel
         return $this->save($data);
     }
 
-    /*
+    /**
      * get all data of selected wallet id
      * @param int $id wallet id
      * @return array of info of wallet
      */
-
     function getSelectedById($id)
     {
         $data = $this->find('first', array('conditions' => array('Wallet.id' => $id)));

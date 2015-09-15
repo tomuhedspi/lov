@@ -7,10 +7,9 @@ class UsersController extends AppController
     public $components = array('Session', 'Auth');
     public $uses       = array('User', 'Image',);
 
-    /*
+    /**
      * save user upload avatar image and set it become avatar
      */
-
     public function edit()
     {
         //check valid input method
@@ -45,13 +44,12 @@ class UsersController extends AppController
         $this->Session->setFlash(__('Save Avatar Successfully'), 'alert_box', array('class' => 'alert-success'));
     }
 
-    /*
+    /**
      * save user uploaded avatar]
      * @param array $img : img user uploaded in edit(user) form
      * @param string $username : user for rename upload image
      * @return false if save false, return save() result array if success
      */
-
     public function saveUploadedImage($img, $username)
     {
         //if upload successfully, move upload file to upload folder
@@ -66,7 +64,7 @@ class UsersController extends AppController
         //if upload file success, save file url to database
         $imgInfo = array(
             'name' => $newName,
-            'url'  => ('uploads'. DS . $newName),
+            'url'  => ('uploads' . DS . $newName),
             'size' => $img['size']
         );
 
@@ -78,14 +76,13 @@ class UsersController extends AppController
         return $uploadResult;
     }
 
-    /*
+    /**
      * reset password for user,
      * resetPassword param get from a link user kich from a resetpassword email
      * when user id and token from browser match with userid and usertoken in database, save new password 
      * @param int $userId
      * @param int $userToken
      */
-
     public function resetPassword($userId, $userToken)
     {
         //check request
@@ -119,10 +116,9 @@ class UsersController extends AppController
         $this->redirect(array('action' => 'login'));
     }
 
-    /*
+    /**
      * a screen for user to input their account name , then it send a reset password email to email related with that acount
      */
-
     public function forgotPassword()
     {    //check request method
         if (!$this->request->is(array('post', 'put'))) {
@@ -155,20 +151,18 @@ class UsersController extends AppController
         $this->Auth->allow('register', 'login', 'activate', 'index', 'forgotPassword', 'resetPassword');
     }
 
-    /*
+    /**
      * log out
      */
-
     public function logout()
     {
         $this->Session->setFlash(__('Logged Out! Please Login  To Get More And More'), 'alert_box', array('class' => 'alert-danger'));
         return $this->redirect($this->Auth->logout());
     }
 
-    /*
+    /**
      * a user screen to input data to login, if user logged it, it will redirect to index with a 'logged in' alert box
      */
-
     public function login()
     {
         if ($this->Auth->user('id')) {
@@ -196,13 +190,12 @@ class UsersController extends AppController
         return;
     }
 
-    /*
+    /**
      * active user account use $userID, $userToken param get from a link when user kich from email
      * the user account will activate if $userToken from link is the same as token in database
      * @param int $userID
      * @param int $userToken
      */
-
     public function activate($userID, $userToken)
     {
         //check variable
@@ -220,20 +213,18 @@ class UsersController extends AppController
         $this->redirect(array('action' => 'login'));
     }
 
-    /*
+    /**
      * simplely show register, login,logout button
      */
-
     public function index()
     {
         $user = $this->Auth->user();
         $this->set(array('user' => $user));
     }
 
-    /*
+    /**
      * a register page for user to get a new account
      */
-
     public function register()
     {
         //check if user is logged in
@@ -265,11 +256,10 @@ class UsersController extends AppController
         return $this->redirect(array('action' => 'index'));
     }
 
-    /*
+    /**
      * sent activate mail to user register email
      * @param array $data which contain user email
      */
-
     private function _send_activate_mail($data)
     {
         $Email = new CakeEmail('gmail');
@@ -281,11 +271,10 @@ class UsersController extends AppController
         $Email->send();
     }
 
-    /*
+    /**
      * sent reset password mail to user register email
      * @param array $data which contain user email
      */
-
     private function _send_password_reset_email($data)
     {
         $Email = new CakeEmail('gmail');

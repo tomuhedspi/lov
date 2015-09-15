@@ -21,13 +21,12 @@ class Category extends AppModel
         ),
     );
 
-    /*
+    /**
      * check if category belong user
      * @param  int  $id category id
      * @param  int  $userID : user id
      * @return data array contain all info of category
      */
-
     public function categoryBelongUser($userId, $id)
     {
         $data = $this->find('first', array(
@@ -36,12 +35,11 @@ class Category extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * get list of  category 's name and id only, used to show in select form
      * @param int $userId
      * @return a list of category, which one element is an array contain category id and category name
      */
-
     public function getCategoryNameIDList($userId)
     {
         $data = $this->find('list', array(
@@ -51,25 +49,23 @@ class Category extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * edit category with change data in $data
      * @param int $id  category id
      * @param array $data  new info data of category
      * @return result of save() function: false if  failure, and an array of data when success
      */
-
     public function edit($data, $id)
     {
         $this->id = $id;
         return $this->save($data);
     }
 
-    /*
+    /**
      * add a new category with input data to user who has $userID number
      * @param array $data info of new category
      * @return result of save() function: false if  failure, and an array of data when success
      */
-
     public function add($data, $userId)
     {
         $this->create();
@@ -77,13 +73,12 @@ class Category extends AppModel
         return $this->save($data);
     }
 
-    /*
+    /**
      * getcategory by type : income or expense
      * @param int $userId
      * @param int $type
      * @return : array of categories which has same type
      */
-
     public function getCategoriesByType($userId, $type)
     {
         $data = $this->find('all', array(
@@ -95,12 +90,11 @@ class Category extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * get all data of selected category id
      * @param int $id id of selected category
      * @return : array of all info about category
      */
-
     public function getCategoryById($userId, $id)
     {
         $data = $this->find('first', array('conditions' => array('Category.id' => $id, 'Category.user_id' => $userId)));

@@ -6,6 +6,9 @@ App::uses('File', 'Utility');
 class ImagesController extends AppController
 {
 
+    /**
+     * upload a image file and save imgae info to database
+     */
     public function upload()
     {
         //check valid input method

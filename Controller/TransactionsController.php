@@ -11,12 +11,11 @@ class TransactionsController extends AppController
 
     public $uses = array('Transaction', 'Category', 'Wallet', 'User');
 
-    /*
+    /**
      * add a transaction with default wallet in current category, called from view transactions in category function
      * @param int $categoryId
      * redirect to view transactions in category function
      */
-
     public function addInCategory($categoryId)
     {
         // Check if user logged in
@@ -25,9 +24,9 @@ class TransactionsController extends AppController
             $this->Session->setFlash("Please Login First!");
             $this->redirect(array('controller' => 'users', 'action' => 'login'));
         }
-        $walletId                           = $this->Auth->user('using_wallet');
+        $walletId     = $this->Auth->user('using_wallet');
         //check if wallet belongs current user
-        $selectWallet                       = $this->Wallet->walletBelongUser($userId, $walletId);
+        $selectWallet = $this->Wallet->walletBelongUser($userId, $walletId);
         if (!$selectWallet) {
             $this->_setAlertMessage(__('Access Denied! Invalid Wallet'));
             return;
@@ -39,7 +38,7 @@ class TransactionsController extends AppController
             return;
         }
         //set view var for category name and current wallet name
-        $this->set(array('categoryName' => $selectCategory['Category']['name'],'currentWalletName'=>$selectWallet['Wallet']['name']));
+        $this->set(array('categoryName' => $selectCategory['Category']['name'], 'currentWalletName' => $selectWallet['Wallet']['name']));
         //check valid input method
         if (!$this->request->is(array('post', 'put'))) {
             return;
@@ -51,8 +50,8 @@ class TransactionsController extends AppController
             return;
         }
         //get data input from user, set wallet id(defaul wallet) and set category id
-        $data                               = $this->request->data;
-  
+        $data = $this->request->data;
+
         $data['Wallet']['id']               = $walletId;
         $data['Transaction']['wallet_id']   = $walletId;
         $data['Transaction']['category_id'] = $categoryId;
@@ -81,10 +80,9 @@ class TransactionsController extends AppController
         }
     }
 
-    /*
+    /**
      * view transaction by category
      */
-
     public function viewByCategory()
     {
         // Check if user logged in
@@ -98,21 +96,20 @@ class TransactionsController extends AppController
         $this->set(array('categoryList' => $categoryList));
         //get data input from user
         $data         = $this->request->data;
-        if(!$data){
-           $transList = array(); 
-        }else{
-        $categoryId   = $data['Transaction']['category_id'];
-        //get transaction list in selected category
-        $transList    = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
+        if (!$data) {
+            $transList = array();
+        } else {
+            $categoryId = $data['Transaction']['category_id'];
+            //get transaction list in selected category
+            $transList  = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
         }
         //set view var
         $this->set(array('transList' => $transList,));
     }
 
-    /*
+    /**
      * income total,expense total
      */
-
     public function monthReport()
     {
         //get user id
@@ -139,10 +136,9 @@ class TransactionsController extends AppController
         $this->set(array('transList' => $thisMonth, 'incomeTotal' => $incomeTotal, 'expenseTotal' => $expenseTotal, 'start' => $start, 'end' => $end));
     }
 
-    /*
+    /**
      * rank transaction by date modified
      */
-
     public function rankByDate()
     {
         //get user id
@@ -157,11 +153,10 @@ class TransactionsController extends AppController
         $this->set(array('transList' => $transList));
     }
 
-    /*
+    /**
      * a user edit page for user to put edit info
      * @param int $id transaction id to edit, get from browser
      */
-
     public function edit($id)
     {
         //check variable
@@ -237,10 +232,9 @@ class TransactionsController extends AppController
         }
     }
 
-    /* xoa mot transaction se hoan tra lai so tien ma transaction da su dung
+    /** xoa mot transaction se hoan tra lai so tien ma transaction da su dung
      * @param int $id transaction id
      */
-
     public function delete($id)
     {
         //check variable
@@ -276,10 +270,9 @@ class TransactionsController extends AppController
         }
     }
 
-    /*
+    /**
      * get data from user and add a new transaction
      */
-
     public function add()
     {
         // Check if user logged in
@@ -340,15 +333,14 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         } else {
             $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
-           // $this->redirect(array('action' => 'index'));
-           return;
+            // $this->redirect(array('action' => 'index'));
+            return;
         }
     }
 
-    /*
+    /**
      * show all user transaction
      */
-
     public function index()
     {
         //get user id

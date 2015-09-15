@@ -54,49 +54,47 @@ class User extends AppModel
         )
     );
 
-    /*
+    /**
      * set avatar image url to user
      * @param int $userid
      * @param string @avatarUrl
      */
-    public function setAvatar($userid,$avatarUrl)
+    public function setAvatar($userid, $avatarUrl)
     {
-       $this->id = $userid;
-       return ($this->saveField('avatar', $avatarUrl));
+        $this->id = $userid;
+        return ($this->saveField('avatar', $avatarUrl));
     }
-    /*
+
+    /**
      * wallet user using 
      * @param int $userId
      * @return the id of wallet user using
      */
-
     public function getUsingWallet($userId)
     {
         $data = $this->findById($userId);
         return $data['User']['using_wallet'];
     }
 
-    /*
+    /**
      * set selected wallet become user current wallet
      * @param int $userId
      * @param int $walletId wallet to set to default wallet for user
      * @return result of saveField function: False on failure or an array of model data on success
      */
-
     public function setUserCurrentWallet($userId, $walletId)
     {
         $this->id = $userId;
         return ($this->saveField('using_wallet', $walletId));
     }
 
-    /*
+    /**
      * save new password for user
      * @param int $userId
      * @param string $userToken
      * @param array $inputData : contain new password for user
      * @return result of save function: False on failure or an array of model data on success
      */
-
     public function resetPassword($userId, $userToken, $inputData)
     {
         $m_query = array(
@@ -120,13 +118,12 @@ class User extends AppModel
         return $result;
     }
 
-    /*
+    /**
      * set a new token for username account then return it 
      * if does not exit $username account, the return data will not contain any thing
      * @param int $username
      * @return user data array
      */
-
     public function getUserEmailAndToken($username)
     {
         $m_query = array(
@@ -153,11 +150,10 @@ class User extends AppModel
         return $data;
     }
 
-    /*
+    /**
      * hash password befor save
      * return true
      */
-
     public function beforeSave($options = array())
     {
         if (isset($this->data['User']['password'])) {
@@ -166,13 +162,12 @@ class User extends AppModel
         return true;
     }
 
-    /*
+    /**
      * check if userID and userToken is match with databse
      * @param int $userId
      * @param string $userToken
      * return true if match and set activate of user true process successfully, if not, return false
      */
-
     public function activate($userId, $userToken)
     {
         $m_query = array(
@@ -195,12 +190,11 @@ class User extends AppModel
         return true;
     }
 
-    /*
+    /**
      * check if user data input password(use in auth component) match
      * @param array $data : user input info data
      * return true false
      */
-
     public function passwordsMatch($data)
     {
         if ($this->data['User']['password'] == $this->data['User']['confirm_password']) {
@@ -209,12 +203,11 @@ class User extends AppModel
         return false;
     }
 
-    /*
+    /**
      * create an new account and set it activate status false(will activate later when user kick on link in activate email)
      * param array $data user input info data
      * return array $data result of save() function
      */
-
     public function createUser($data)
     {
         $this->create();
