@@ -25,11 +25,11 @@
     height: 100%;
 }
 #sidebar{
-    background:url(../img/lover/flower.jpg) no-repeat ;
+    background:url(../img/lover/flower.png) no-repeat ;
     height: 800px ;  
 }
 #rightbar{
-    background:url(../img/lover/flower2.jpg) no-repeat ;
+    background:url(../img/lover/flower2.png) no-repeat ;
     right: 0px;
     height: 800px ;  
     text-align: right;
