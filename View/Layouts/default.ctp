@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--vi du ve branch-->
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
@@ -116,6 +117,7 @@
         echo $this->Html->script('jquery-1.11.3.min');
         echo $this->Html->script('bootstrap.min');
         echo $this->fetch('script');
+        echo '<br>  <br> <br>';
         ?>
     </body>
 </html>
