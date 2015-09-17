@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--day la vi du ve branch, cau lenh nay viet trong master branch-->
+<!--vi du ve branch-->
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
@@ -117,6 +117,7 @@
         echo $this->Html->script('jquery-1.11.3.min');
         echo $this->Html->script('bootstrap.min');
         echo $this->fetch('script');
+        echo '<br>  <br> <br>';
         ?>
     </body>
 </html>
