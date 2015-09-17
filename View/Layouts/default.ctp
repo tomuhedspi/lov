@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--day la vi du ve branch, cau lenh nay viet trong master branch-->
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
