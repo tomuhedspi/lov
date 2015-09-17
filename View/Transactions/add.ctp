@@ -1,22 +1,30 @@
+<?php $this->assign('title', 'Add A New Transaction'); ?>
 <div class="container">
     <h2>Add A New Transaction</h2>
-    <?php
-    echo $this->Form->create('Transaction');
-    echo $this->Form->input('content', array(
-        'label' => "Transaction Content",
-        'type'  => 'text'
-    ));
-
-    echo $this->Form->input('amount', array(
-        'label' => "Transaction Amount",
-        'type'  => 'double'
-    ));
-//danh sach cac  wallet thuoc user , danh sach cac category cua user
-    ?>
-
     <table class="table table-condensed">
         <thead></thead>
         <tbody>
+            <tr>
+                <th>Transaction Content</th>
+                <th colspan="2"><?php
+                    echo $this->Form->create('Transaction');
+                    echo $this->Form->input('content', array(
+                        'label' => "",
+                        'type'  => 'text'
+                    ));
+                    ?>    
+                </th>
+            </tr>
+            <tr>
+                <th>Transaction Amount</th>
+                <th colspan="2"><?php
+                    echo $this->Form->input('amount', array(
+                        'label' => "",
+                        'type'  => 'double'
+                    ));
+                    ?>
+                </th>
+            </tr>
             <tr>
                 <th>Wallet</th>
                 <th>

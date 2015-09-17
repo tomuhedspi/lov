@@ -1,32 +1,38 @@
+<?php $this->assign('title', 'Add Wallet'); ?>
 <div class="container">
     <h2>Add A New Wallet</h2>
     <fieldset>
         <table class="table table-striped">
             <tbody>
                 <tr>
+                    <th>Wallet Name</th>
                     <th>
                         <?php
                         echo $this->Form->create();
                         echo $this->Form->input('name', array(
-                            'label' => "Wallet Name",
+                            'label' => "",
                             'type'  => 'text'
                         ));
                         ?>
                     </th>
+                </tr>
+                <tr>
+                    <th>Money Amount</th>
                     <th>
                         <?php
                         echo $this->Form->input('amount', array(
-                            'label' => "Money Amount",
+                            'label' => "",
                             'type'  => 'double'
                         ));
                         ?>
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="2"> 
+                    <th>Discription</th>
+                    <th>
                         <?php
                         echo $this->Form->input('note', array(
-                            'label' => "Discription",
+                            'label' => "",
                             'type'  => 'text'
                         ));
                         ?>

@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Add New Transaction'); ?>
 <div class="container">
     <h2>Add A New Transaction In : <?php echo $categoryName;   ?> </h2>
     <?php

@@ -1,7 +1,6 @@
-<h2>Wallet</h2>  
-
-<div class="col-md-12 col-lg-12 col-sm-12"
-     <h4 Wallet You Have :  />
+<?php $this->assign('title', 'All Wallet'); ?>
+<div class="col-md-12 col-lg-12 col-sm-12"/>
+<h4> Wallet You Have  </h4>
     <table class="table table-hover"
            <thead>
                 <tr>

@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Edit Wallet'); ?>
 <div class="container">
 
     <fieldset>

@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Register'); ?>
 <div class="container">
 
     <fieldset>

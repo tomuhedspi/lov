@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'All Transaction'); ?>
 <div class="col-md-12"/>
 <h4> All Transaction You Made </h4>
 <table class="table table-hover">

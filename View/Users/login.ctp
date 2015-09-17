@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Money Lover Login'); ?>
 <?php
 echo $this->Html->script('additional-methods.min');
 echo $this->Html->script('jquery.validate.min');
@@ -11,21 +12,37 @@ echo $this->Html->script('users');
         echo $this->Form->create();
         ?>
         <legend>Login</legend>
-        <?php
-        echo $this->Form->input('username', array(
-            'label' => "User Name or Email",
-            'type'  => 'text'
-        ));
-
-        echo $this->Form->input('password', array(
-            'label' => 'Password',
-            'type'  => 'password'
-        ));
-        ?>
-
-        <?php
-        echo $this->Form->end('Login');
-        ?>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>Username Or Email</td>
+                    <td>
+                        <?php
+                        echo $this->Form->input('username', array(
+                            'label' => "",
+                            'type'  => 'text'
+                        ));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <?php
+                        echo $this->Form->input('password', array(
+                            'label' => '',
+                            'type'  => 'password'
+                        ));
+                        ?>
+                    </td>
+                </tr>
+                <tr>   
+                    <td colspan="2">
+                        <?php echo $this->Form->end('Login'); ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
         <div class ="row">
             <?php

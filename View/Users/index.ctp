@@ -1,4 +1,9 @@
-<?php
+<?php $this->assign('title', 'Home'); 
+
+$this->start('sidebar');
+echo "day la sidebar";
+$this->end();
+
 echo $this->Html->image($user['avatar'], array('alt' => 'Avatar'));
 echo (empty($user)) ? '' : '<br>WELCOME : ' . $user['username'] . ' !<br><br>Lets Go Through The Project :<br><br>';
 echo $this->Html->link(

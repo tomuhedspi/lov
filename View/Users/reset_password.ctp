@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Reset Password'); ?>
 <div class="container">
 
     <fieldset>

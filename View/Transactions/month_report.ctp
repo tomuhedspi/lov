@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Month Report'); ?>
 <h3>Transaction From <?php echo $start; ?> To <?php echo $end; ?></h3>  
 <div class="row">
     <div class="col-md-5">

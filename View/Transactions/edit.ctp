@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Edit Transaction'); ?>
 <div class="container">
     <h2>Edit Transaction</h2>
     <?php

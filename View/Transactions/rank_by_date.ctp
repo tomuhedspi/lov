@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Rank By Date'); ?>
 <h2>Transaction</h2>  
 
 <div class="col-md-12"

@@ -1,14 +1,26 @@
+<?php $this->assign('title', 'By Category'); ?>
 <div class="col-md-12"
-     <h3>Transaction In Selected Category</h3>  
-         <?php
-         echo $this->Form->create('Transaction');
-         echo $this->Form->input('category_id', array(
-             'label'   => '',
-             'options' => $categoryList,
-             'empty'   => '(choose one)'
-         ));
-         echo $this->Form->end('View Transaction ');
-         ?>
+     <h3>Transaction In Selected Category</h3>
+         <?php echo $this->Form->create('Transaction'); ?>
+    <table class="table table-hover">
+        <tbody>
+            <tr>
+                <th>Select Category</th>
+                <th><?php
+                    echo $this->Form->input('category_id', array(
+                        'label'   => '',
+                        'options' => $categoryList,
+                        'empty'   => '(choose one)'
+                    ));
+                    ?>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2"><?php echo $this->Form->end('View Transaction '); ?></th>
+            </tr>
+        </tbody>
+    </table>
+
     <table class="table table-hover"
            <thead>
             <tr>

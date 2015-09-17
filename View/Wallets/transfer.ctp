@@ -1,26 +1,48 @@
+<?php $this->assign('title', 'Transfer Money Between Wallet'); ?>
 <div class="container">
     <h2>Transfer Money Between Wallet</h2>
     <fieldset>
-        <?php
-        echo $this->Form->create();
-        echo $this->Form->input('from', array(
-            'label'   => 'From Wallet : ',
-            'options' => $walletList,
-            'empty'   => '(choose one)'
-        ));
+        <?php echo $this->Form->create(); ?>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>From Wallet</th>
+                    <th><?php
+                        echo $this->Form->input('from', array(
+                            'label'   => '',
+                            'options' => $walletList,
+                            'empty'   => '(choose one)'
+                        ));
+                        ?>             
+                    </th>
+                </tr>
+                <tr>
+                    <th>To Wallet</th>
+                    <th><?php
+                        echo $this->Form->input('to', array(
+                            'label'   => '',
+                            'options' => $walletList,
+                            'empty'   => '(choose one)'
+                        ));
+                        ?>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Transfer Amount</th>
+                    <th><?php
+                        echo $this->Form->input('amount', array(
+                            'label' => "",
+                            'type'  => 'double'
+                        ));
+                        ?> 
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2"><?php echo $this->Form->end('Transfer Money Now '); ?></th>
+                </tr>
+            </tbody>
+        </table>
 
-        echo $this->Form->input('to', array(
-            'label'   => 'To Wallet : ',
-            'options' => $walletList,
-            'empty'   => '(choose one)'
-        ));
-
-        echo $this->Form->input('amount', array(
-            'label' => "Transfer Amount : ",
-            'type'  => 'double'
-        ));
-        echo $this->Form->end('Transfer Money Now ');
-        ?>
     </fieldset>
 
 </div>
