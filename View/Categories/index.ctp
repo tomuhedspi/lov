@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'All Category'); ?>
 <div class="col-md-6">
     <?php echo'Income Categories '; ?>
     <table class="table table-hover"

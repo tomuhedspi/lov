@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'Edit Category'); ?>
 <div class="container">
 
     <fieldset>

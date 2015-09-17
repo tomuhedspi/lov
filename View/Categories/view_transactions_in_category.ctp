@@ -1,3 +1,4 @@
+<?php $this->assign('title', 'View Transaction In Category'); ?>
 <div class="col-md-12"
      <h3>All Transaction In : <?php echo $categoryName;  ?></h3>  
     <table class="table table-hover"
