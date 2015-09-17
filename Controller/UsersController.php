@@ -148,7 +148,7 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         // Allow users to register and logout.
-        $this->Auth->allow('register', 'login', 'activate', 'index', 'forgotPassword', 'resetPassword');
+        $this->Auth->allow('register', 'login', 'activate', 'index', 'forgotPassword', 'resetPassword','contact');
     }
 
     /**
@@ -284,6 +284,15 @@ class UsersController extends AppController
         $Email->template('reset_password');
         $Email->viewVars(array('user' => $data));
         $Email->send();
+    }
+
+    /*
+     * user info
+     */
+
+    public function contact()
+    {
+        
     }
 
 }

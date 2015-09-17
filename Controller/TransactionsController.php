@@ -260,7 +260,10 @@ class TransactionsController extends AppController
         }
         //step 5: update amount in wallet
         $selectTransaction['Wallet']['amount'] = $selectTransaction['Wallet']['amount'] - $selectTransaction['Transaction']['amount'];
-        // $selectTransaction['Wallet']['id']     = $selectTransaction['Wallet']['id'] + 0;
+        if ( $selectTransaction['Wallet']['amount']<0){
+            $this->_setAlertMessage(__('Cannot Delete This Transaction Because of Money Amount In Wallet! Please Try Later'));
+             $this->redirect(array('action' => 'index'));
+        }
         if ($this->Transaction->deleteTransaction($id, $selectTransaction)) {
             $this->Session->setFlash(__('Successfully Delete Transaction !'), 'alert_box', array('class' => 'alert-success'));
             $this->redirect(array('action' => 'index'));

@@ -15,10 +15,10 @@ class Wallet extends AppModel
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
             ),
-            'naturalNumber' => array(
-                'rule'    => 'naturalNumber',
-                'message' => 'Natural Number Only',
-            ),
+            'isnumeric' => array(
+                'rule'    => 'numeric',
+                'message' => 'Please Enter Number Only'
+            )
         ),
         'from'   => array(
             'notEmpty' => array(

@@ -3,8 +3,8 @@
 class Transaction extends AppModel
 {
 
-    public $name      = 'Transaction';
-    public $validate  = array(
+    public $name     = 'Transaction';
+    public $validate = array(
         'content'     => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
@@ -12,10 +12,14 @@ class Transaction extends AppModel
             ),
         ),
         'amount'      => array(
-            'notEmpty' => array(
+            'notEmpty'  => array(
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
             ),
+            'isnumeric' => array(
+                'rule'    => 'numeric',
+                'message' => 'Please Enter Number Only'
+            )
         ),
         'wallet_id'   => array(
             'notEmpty' => array(
@@ -122,14 +126,14 @@ class Transaction extends AppModel
     {
         $dataSource = $this->getDataSource();
         $dataSource->begin();
+        debug($data);
         $result1    = $this->saveAssociated($data);
         $result2    = $this->delete($id);
-
-        if ($result1 && $result2) {
-            return $dataSource->commit();
-        } else {
-            return $dataSource->rollback();
+        if (!$result2 || !$result1) {
+            $dataSource->rollback();
+            return false;
         }
+        return $dataSource->commit();
     }
 
     /**
