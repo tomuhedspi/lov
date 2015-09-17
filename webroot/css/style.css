@@ -1,0 +1,36 @@
+.top_logo{
+    display:block;  
+    width: 100%;
+    height: 70px;
+    background:url(../img/lover/icon.png) no-repeat #2BAF2B;
+    padding-top: 15px;
+    text-align: center;
+    font-size: x-large;
+    color: #F0F0F0;
+    white-space: nowrap;
+    overflow: hidden;
+    margin:0 auto;
+}
+.copyright{
+    background-color: #FEF6E5 ;
+    display: inline-block;
+    height: 55px;
+    padding: 15px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+#copyright span {
+    height: 100%;
+}
+#sidebar{
+    background:url(../img/lover/flower.jpg) no-repeat ;
+    height: 800px ;  
+}
+#rightbar{
+    background:url(../img/lover/flower2.jpg) no-repeat ;
+    right: 0px;
+    height: 800px ;  
+    text-align: right;
+}
