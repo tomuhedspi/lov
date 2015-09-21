@@ -234,20 +234,64 @@ class TransactionsController extends AppController
             $this->Session->setFlash(__('Access Denied! Selected Transaction Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
+        //xu ly rieng transaction chuyen tien 
+        if ($selectTransaction['Transaction']['second_wallet_id'] != null) {
+            $delResult = $this->_deleteTransferTransaction($id, $selectTransaction);
+            goto showResult;
+        }
         //step 5: update amount in wallet
         $selectTransaction['Wallet']['amount'] = $selectTransaction['Wallet']['amount'] - $selectTransaction['Transaction']['amount'];
-        if ( $selectTransaction['Wallet']['amount']<0){
+        if ($selectTransaction['Wallet']['amount'] < 0) {
             $this->_setAlertMessage(__('Cannot Delete This Transaction Because of Money Amount In Wallet! Please Try Later'));
-             $this->redirect(array('action' => 'index'));
+            $this->redirect(array('action' => 'index'));
         }
-        if ($this->Transaction->deleteTransaction($id, $selectTransaction)) {
+        $delResult = $this->Transaction->deleteTransaction($id, $selectTransaction);
+
+        showResult:
+        if ($delResult) {
             $this->Session->setFlash(__('Successfully Delete Transaction !'), 'alert_box', array('class' => 'alert-success'));
-            $this->redirect(array('action' => 'index'));
-        } else {
-            $this->Session->setFlash(__('Cannot Delete Selected Transaction, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
-            $this->redirect(array('action' => 'index'));
+            // $this->redirect(array('action' => 'index'));
+            return;
         }
+
+        // debug($this->Transaction->validationErrors);
+        $this->Session->setFlash(__('Cannot Delete Selected Transaction, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
+        //$this->redirect(array('action' => 'index'));
+        return;
     }
+
+    /**
+     * delete a transfer money bettween wallet transaction, it add money amount to a wallet and minus money in another wallet
+     * @param int $id transactionid
+     * @param array $data transaction data array
+     * @return type Description
+     */
+    private function _deleteTransferTransaction($id, $data)
+    {
+        $data['Wallet']['amount'] = $data['Wallet']['amount'] + abs($data['Transaction']['amount']); //cong lai tien vao vi 1
+        $secondWalletId           = $data['Transaction']['second_wallet_id'];
+        $secondWallet             = $this->Wallet->walletBelongUser($data['Transaction']['user_id'], $secondWalletId);
+        if (!$secondWallet) {
+            return false;
+        }
+        //update money in second wallet
+        $secondWallet['Wallet']['amount'] = $secondWallet['Wallet']['amount'] - abs($data['Transaction']['amount']); //tru tien trong vi 2
+        if ($secondWallet['Wallet']['amount'] < 0) {
+            return false;
+        }
+        //save data
+        $datasource     = $this->Transaction->getDataSource();
+        $datasource->begin($this->Transaction);
+        
+        $delTransactionResult = $this->Transaction->deleteTransaction($id, $data);
+        $updateSecondWalletResult =  $this->Wallet->edit($secondWallet, $secondWalletId) ; 
+        
+        if($delTransactionResult&&$updateSecondWalletResult){
+            return $datasource->commit($this->Transaction);
+        }
+           $datasource->rollback($this->Transaction);   
+           return false;
+        }
 
     /**
      * get data from user and add a new transaction

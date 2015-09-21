@@ -15,6 +15,7 @@
                         ));
                         ?>             
                     </th>
+                    <th><?php echo $emptyFrom;  ?></th>
                 </tr>
                 <tr>
                     <th>To Wallet</th>
@@ -26,10 +27,11 @@
                         ));
                         ?>
                     </th>
+                    <th><?php  echo $emptyTo;  ?></th>
                 </tr>
                 <tr>
                     <th>Transfer Amount</th>
-                    <th><?php
+                    <th colspan="2"><?php
                         echo $this->Form->input('amount', array(
                             'label' => "",
                             'type'  => 'double'
@@ -38,7 +40,7 @@
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="2"><?php echo $this->Form->end('Transfer Money Now '); ?></th>
+                    <th colspan="3"><?php echo $this->Form->end('Transfer Money Now '); ?></th>
                 </tr>
             </tbody>
         </table>

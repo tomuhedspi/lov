@@ -20,18 +20,6 @@ class Wallet extends AppModel
                 'message' => 'Please Enter Number Only'
             )
         ),
-        'from'   => array(
-            'notEmpty' => array(
-                'rule'    => 'notBlank',
-                'message' => 'Please Select A Wallet!.'
-            ),
-        ),
-        'to'     => array(
-            'notEmpty' => array(
-                'rule'    => 'notBlank',
-                'message' => 'Please Select A Wallet!.'
-            ),
-        ),
     );
 
     /**

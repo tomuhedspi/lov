@@ -14,12 +14,27 @@ class Category extends AppModel
             ),
         ),
         'type' => array(
-            'notEmpty' => array(
-                'rule'    => 'notBlank',
-                'message' => 'Please Enter Category Type!.'
+            'boolean' => array(
+                'rule'    => 'boolean',
+                'message'  => 'Please Enter Category Type.',
+                'required' => true
             ),
         ),
     );
+
+    /**
+     * find user money transfer money transaction
+     * @param int $userId
+     * return int categoryId
+     */
+    public function findUserTransferMoneyCategory($userId, $isTransfer)
+    {
+        $data = $this->find('first', array(
+            'conditions' => array('Category.is_transfer' => $isTransfer, 'Category.user_id' => $userId),
+            'fields'     => array('Category.id'),
+        ));
+        return $data;
+    }
 
     /**
      * check if category belong user
