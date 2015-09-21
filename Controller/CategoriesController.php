@@ -15,11 +15,8 @@ class CategoriesController extends AppController
      */
     public function viewTransactionsInCategory($categoryId)
     {
+        //get user id
         $userId = $this->Auth->user('id');
-        if (!$userId) {
-            $this->_setAlertMessage(__('Please Loggin First'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         $data      = $this->Category->getCategoryById($userId, $categoryId);
         $transList = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
         //set view var
@@ -36,10 +33,6 @@ class CategoriesController extends AppController
 
         //get user id
         $id = $this->Auth->user('id');
-        if ($id == null) {
-            $this->_setAlertMessage(__('Please Loggin Before See Category List'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
 
         $incomeList = $this->Category->getCategoriesByType($id, $incomeType);
         $expensList = $this->Category->getCategoriesByType($id, $expensType);
@@ -65,10 +58,6 @@ class CategoriesController extends AppController
         }
         //get user id   
         $id = $this->Auth->user('id');
-        if ($id == NULL) {
-            $this->Session->setFlash('Please Login And Try Again!');
-            return;
-        }
         // Validate inputs
         $this->Category->set($this->request->data);
         $valid = $this->Category->validates();
@@ -99,12 +88,8 @@ class CategoriesController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
+        //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin And Try Again!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
 
         $targetCategory = $this->Category->getCategoryById($userId, $id);
         if (!$targetCategory) {
@@ -149,12 +134,8 @@ class CategoriesController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
+        //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin And Try Again!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //check if selected category belong user
         if (!$this->Category->categoryBelongUser($userId, $id)) {
             $this->_setAlertMessage(__('You Do Not Have Right To Delete This Category !'));
