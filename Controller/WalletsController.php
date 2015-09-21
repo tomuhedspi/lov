@@ -10,7 +10,7 @@ class WalletsController extends AppController
      * @param int $walletId
      */
     public function setCurrentWallet($walletId)
-    {   //get user id
+    {   //get user ID
         $userId = $this->Auth->user('id');
         //check input method
         if (!$this->request->is(array('post', 'put'))) {
@@ -144,7 +144,6 @@ class WalletsController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur With Wallet Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-
         $selectedOne = $this->Wallet->getSelectedById($walletId);
         if ($selectedOne) {
             //set view
@@ -186,6 +185,7 @@ class WalletsController extends AppController
     {
         //get user id
         $userId = $this->Auth->user('id');
+
         //get user using wallet id :$usingWallet
         $usingWallet = $this->User->getUsingWallet($userId);
 
@@ -193,8 +193,6 @@ class WalletsController extends AppController
         $walletList = $this->Wallet->getUserWallets($userId); //all data of wallet
         if (empty($walletList)) {
             $this->Session->setFlash(__('You Dont Have Any Wallet Yet!'), 'alert_box', array('class' => 'alert-danger'));
-            // $this->redirect(array('action'=>'add'));
-            //   return;
         }
 
         //set view

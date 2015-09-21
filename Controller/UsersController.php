@@ -12,12 +12,10 @@ class UsersController extends AppController
      */
     public function edit()
     {
-        //check valid input method
+        //check valid input method 
         if (!$this->request->is(array('post', 'put'))) {
             return;
         }
-        // get user name
-        $username = $this->Auth->user('username');
         $img = $this->request->data['Image']['img'];
         //check if upload file does not get any error
         if ($img['error'] > 0) {
@@ -30,7 +28,7 @@ class UsersController extends AppController
             $this->_setAlertMessage(__('Failed Uploading Image'));
             return;
         }
-        // $this->Session->setFlash(__('Upload Image Successfully'), 'alert_box', array('class' => 'alert-success'));
+        // get user id
         $userid           = $this->Auth->user('id');
         $saveAvatarResult = $this->User->setAvatar($userid, $saveImageResult['Image']['url']);
         if (!$saveAvatarResult) {

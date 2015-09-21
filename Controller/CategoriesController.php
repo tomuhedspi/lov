@@ -31,7 +31,7 @@ class CategoriesController extends AppController
         $incomeType = 1;
         $expensType = 0;
 
-        //get user id
+        //get iser id
         $id = $this->Auth->user('id');
 
         $incomeList = $this->Category->getCategoriesByType($id, $incomeType);
@@ -155,12 +155,4 @@ class CategoriesController extends AppController
             $this->redirect(array('action' => 'index'));
         }
     }
-
-    public function beforeFilter()
-    {
-        parent::beforeFilter();
-        // Allow users to do following action
-        $this->Auth->allow('index'); //'addCategory','editCategory','deleteCategory'
-    }
-
 }

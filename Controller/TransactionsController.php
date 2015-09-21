@@ -19,7 +19,7 @@ class TransactionsController extends AppController
     public function addInCategory($categoryId)
     {
         // get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         $walletId     = $this->Auth->user('using_wallet');
         //check if wallet belongs current user
         $selectWallet = $this->Wallet->walletBelongUser($userId, $walletId);
@@ -82,7 +82,7 @@ class TransactionsController extends AppController
     public function viewByCategory()
     {
         // get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         //show category list for user to select
         $categoryList = $this->Category->getCategoryNameIDList($userId);
         $this->set(array('categoryList' => $categoryList));
@@ -105,7 +105,7 @@ class TransactionsController extends AppController
     public function monthReport()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         //get transaction of user in this month
         $end          = date('Y-m-d');
         $start        = date('Y-m-d', strtotime('-1 month'));
@@ -130,7 +130,7 @@ class TransactionsController extends AppController
     public function rankByDate()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId    = $this->Auth->user('id');
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactionsDateRank($userId);
         //set view
@@ -149,7 +149,7 @@ class TransactionsController extends AppController
             return;
         }
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId            = $this->Auth->user('id');
         //check and get data of seleected transaction  id
         $selectTransaction = $this->Transaction->transactionBelongUser($userId, $id);
         if (!$selectTransaction) {
@@ -250,12 +250,14 @@ class TransactionsController extends AppController
         showResult:
         if ($delResult) {
             $this->Session->setFlash(__('Successfully Delete Transaction !'), 'alert_box', array('class' => 'alert-success'));
-            $this->redirect(array('action' => 'index'));
+            // $this->redirect(array('action' => 'index'));
+            return;
         }
 
         // debug($this->Transaction->validationErrors);
         $this->Session->setFlash(__('Cannot Delete Selected Transaction, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
-        $this->redirect(array('action' => 'index'));
+        //$this->redirect(array('action' => 'index'));
+        return;
     }
 
     /**
@@ -279,15 +281,15 @@ class TransactionsController extends AppController
         }
         //save data
         $datasource = $this->Transaction->getDataSource();
-        $datasource->begin();
+        $datasource->begin($this->Transaction);
 
         $delTransactionResult     = $this->Transaction->deleteTransaction($id, $data);
         $updateSecondWalletResult = $this->Wallet->edit($secondWallet, $secondWalletId);
 
         if ($delTransactionResult && $updateSecondWalletResult) {
-            return $datasource->commit();
+            return $datasource->commit($this->Transaction);
         }
-        $datasource->rollback();
+        $datasource->rollback($this->Transaction);
         return false;
     }
 
@@ -297,7 +299,7 @@ class TransactionsController extends AppController
     public function add()
     {
         // get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         //get wallet and category list then echo to user
         $walletList   = $this->Wallet->getWalletNameIDList($userId);
         $categoryList = $this->Category->getCategoryNameIDList($userId);
@@ -350,8 +352,7 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         } else {
             $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
-            // $this->redirect(array('action' => 'index'));
-            return;
+            $this->redirect(array('action' => 'index'));
         }
     }
 
@@ -361,7 +362,7 @@ class TransactionsController extends AppController
     public function index()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId    = $this->Auth->user('id');
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactions($userId);
         //set view
