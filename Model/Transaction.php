@@ -8,7 +8,7 @@ class Transaction extends AppModel
         'content'     => array(
             'notEmpty' => array(
                 'rule'    => 'notBlank',
-                'message' => 'Please Enter Money Amount Here!.'
+                'message' => 'Please enter transaction content.'
             ),
         ),
         'amount'      => array(
@@ -16,10 +16,6 @@ class Transaction extends AppModel
                 'rule'    => 'notBlank',
                 'message' => 'Please Enter Money Amount Here!.'
             ),
-            'isnumeric' => array(
-                'rule'    => 'numeric',
-                'message' => 'Please Enter Number Only'
-            )
         ),
         'wallet_id'   => array(
             'notEmpty' => array(
@@ -118,6 +114,7 @@ class Transaction extends AppModel
 
     /**
      * delete a transaction , with related amount in wallet, user transaction to make sure that all action come completely
+     * neu wallet id rong hoac category rong thi van xoa transaction binh thuong
      * @param int $id id of transaction
      * @param array $data relate data in other model, eg: delete a buy car transaction will return the money to wallet
      * @return result of commit or rollback: true if success, false if failure
@@ -126,7 +123,6 @@ class Transaction extends AppModel
     {
         $dataSource = $this->getDataSource();
         $dataSource->begin();
-        debug($data);
         $result1    = $this->saveAssociated($data);
         $result2    = $this->delete($id);
         if (!$result2 || !$result1) {
@@ -135,6 +131,7 @@ class Transaction extends AppModel
         }
         return $dataSource->commit();
     }
+
 
     /**
      * check if this transaction belong current user

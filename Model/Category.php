@@ -14,9 +14,10 @@ class Category extends AppModel
             ),
         ),
         'type' => array(
-            'notEmpty' => array(
-                'rule'    => 'notBlank',
-                'message' => 'Please Enter Category Type!.'
+            'boolean' => array(
+                'rule'    => 'boolean',
+                'message'  => 'Please Enter Category Type.',
+                'required' => true
             ),
         ),
     );
