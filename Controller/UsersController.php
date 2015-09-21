@@ -16,8 +16,6 @@ class UsersController extends AppController
         if (!$this->request->is(array('post', 'put'))) {
             return;
         }
-        //check if user logged in and get user name
-        $username = $this->Auth->user('username');
         $img = $this->request->data['Image']['img'];
         //check if upload file does not get any error
         if ($img['error'] > 0) {
@@ -30,7 +28,7 @@ class UsersController extends AppController
             $this->_setAlertMessage(__('Failed Uploading Image'));
             return;
         }
-        // $this->Session->setFlash(__('Upload Image Successfully'), 'alert_box', array('class' => 'alert-success'));
+        // get user id
         $userid           = $this->Auth->user('id');
         $saveAvatarResult = $this->User->setAvatar($userid, $saveImageResult['Image']['url']);
         if (!$saveAvatarResult) {

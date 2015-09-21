@@ -10,7 +10,7 @@ class WalletsController extends AppController
      * @param int $walletId
      */
     public function setCurrentWallet($walletId)
-    {   //check current user
+    {   //get user ID
         $userId = $this->Auth->user('id');
         //check input method
         if (!$this->request->is(array('post', 'put'))) {
@@ -98,9 +98,6 @@ class WalletsController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur With Wallet Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
-        $id = $this->Auth->user('id');
-
         $selectedOne = $this->Wallet->getSelectedById($walletId);
         if ($selectedOne) {
             //set view
@@ -150,8 +147,6 @@ class WalletsController extends AppController
         $walletList = $this->Wallet->getUserWallets($userId); //all data of wallet
         if (empty($walletList)) {
             $this->Session->setFlash(__('You Dont Have Any Wallet Yet!'), 'alert_box', array('class' => 'alert-danger'));
-            // $this->redirect(array('action'=>'add'));
-            //   return;
         }
 
         //set view
@@ -199,12 +194,8 @@ class WalletsController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
+        //get user id
         $userId = $this->Auth->user('id');
-//        if ($userId == null) {
-//            $this->Session->setFlash("Please Loggin And Try Again!");
-//            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-//        }
         //check if are there any transaction related with selected wallet
         if ($this->Transaction->transactionBelongWallet($id)) {
             $this->_setAlertMessage(__('Cannot Delete This Category, There Are Transactions Related To It!'));

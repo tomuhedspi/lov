@@ -154,12 +154,4 @@ class CategoriesController extends AppController
             $this->redirect(array('action' => 'index'));
         }
     }
-
-//    public function beforeFilter()
-//    {
-//        parent::beforeFilter();
-//        // Allow users to do following action
-//        $this->Auth->allow('index'); //'addCategory','editCategory','deleteCategory'
-//    }
-
 }

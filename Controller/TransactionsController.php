@@ -18,7 +18,7 @@ class TransactionsController extends AppController
      */
     public function addInCategory($categoryId)
     {
-        // Check if user logged in
+        // get user id
         $userId = $this->Auth->user('id');
         $walletId     = $this->Auth->user('using_wallet');
         //check if wallet belongs current user
@@ -308,8 +308,7 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         } else {
             $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
-            // $this->redirect(array('action' => 'index'));
-            return;
+             $this->redirect(array('action' => 'index'));
         }
     }
 
