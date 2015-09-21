@@ -163,7 +163,18 @@ class Transaction extends AppModel
 //        return $this->save($data);
         return $this->saveAssociated($data);
     }
-
+/**
+ * add a transfer money between wallet transaction
+ * because transfermoney is special transaction so create it own transaction
+ * @param array $data
+ * @return boolean 
+ */
+    public function addTransferTransaction($data)
+    {
+        $this->create();
+        return $this->save($data);
+    }
+    
     /**
      * all transaction of user which has $userId
      * @param  int $userId

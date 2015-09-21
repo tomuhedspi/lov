@@ -49,8 +49,10 @@ class WalletsController extends AppController
         }
         //get wallet list then echo to user
         $walletList = $this->Wallet->getWalletNameIDList($userId);
+        $emptyFrom  = ''; //notice to select wallet
+        $emptyTo    = '';
         //set view
-        $this->set(array('walletList' => $walletList));
+        $this->set(array('walletList' => $walletList, 'emptyFrom' => $emptyFrom, 'emptyTo' => $emptyTo));
 
         //transfer money action
         //step1 :check valid input method
@@ -68,6 +70,16 @@ class WalletsController extends AppController
         $fromId = $data['Wallet']['from'];
         $toId   = $data['Wallet']['to'];
         $amount = abs((double) $data['Wallet']['amount']);
+        if (empty($fromId)) {
+            $emptyFrom = 'Please Select Wallet To Get Money From';
+            $this->set(array('emptyFrom' => $emptyFrom));
+            return;
+        }
+        if (empty($toId)) {
+            $emptyTo = 'Please Select Wallet To Put Money';
+            $this->set(array('emptyTo' => $emptyTo));
+            return;
+        }
         //check if wallet belongs current user
         if (!$this->Wallet->walletBelongUser($userId, $fromId)) {
             $this->Session->setFlash(__('Access Denied! The From Wallets Do Not Belong To You'), 'alert_box', array('class' => 'alert-danger'));
@@ -88,12 +100,46 @@ class WalletsController extends AppController
         //step2:transfer money between 2 wallet
         $transResult = $this->Wallet->transfer($fromId, $toId, $amount); //transResult variable contain message about transfer process
         if ($transResult) {
+            $createTransaction = $this->_createTransferTransaction($userId, $amount, $fromId, $toId);
+            if (!$createTransaction) {
+                $this->Session->setFlash(__('Successfully Tranfer Money But Create Transaction Name Failed!'), 'alert_box', array('class' => 'alert-success'));
+                //  $this->redirect(array('action' => 'index'));
+                return;
+            }
             $this->Session->setFlash(__('Successfully Tranfer Money!'), 'alert_box', array('class' => 'alert-success'));
             $this->redirect(array('action' => 'index'));
         } else {
             $this->Session->setFlash(__('Temporary Cannot Transfer Money For You Now, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
             $this->redirect(array('action' => 'index'));
         }
+    }
+
+    /**
+     * create a transfer money transaction
+     * tao transaction voi category co is_transfer = true
+     * trong transaction co wallet_id va second_walletId
+     * chi tao transaction, khong update tien cua cac wallet
+     */
+    private function _createTransferTransaction($userId, $amount, $fromId, $toId)
+    {
+        $isTransfer = true;
+        $categoryId = $this->Category->findUserTransferMoneyCategory($userId, $isTransfer);
+        if (!$categoryId) {
+            $thongbao = "khong tim thay categoryId";
+            debug($thongbao);
+            return false;
+        }
+        $data['Transaction']['amount']           = $amount;
+        $data['Transaction']['wallet_id']        = $fromId;
+        $data['Transaction']['second_wallet_id'] = $toId;
+        $data['Transaction']['category_id']      = $categoryId['Category']['id'];
+        $data['Transaction']['user_id']          = $userId;
+        $data['Transaction']['content']          = 'chuyen tien qua vi';
+        $result                                  = $this->Transaction->addTransferTransaction($data);
+        if (!$result) {
+            return false;
+        }
+        return true;
     }
 
     /**
