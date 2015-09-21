@@ -250,14 +250,12 @@ class TransactionsController extends AppController
         showResult:
         if ($delResult) {
             $this->Session->setFlash(__('Successfully Delete Transaction !'), 'alert_box', array('class' => 'alert-success'));
-            // $this->redirect(array('action' => 'index'));
-            return;
+            $this->redirect(array('action' => 'index'));
         }
 
         // debug($this->Transaction->validationErrors);
         $this->Session->setFlash(__('Cannot Delete Selected Transaction, Please Try Later!'), 'alert_box', array('class' => 'alert-danger'));
-        //$this->redirect(array('action' => 'index'));
-        return;
+        $this->redirect(array('action' => 'index'));
     }
 
     /**
@@ -281,15 +279,15 @@ class TransactionsController extends AppController
         }
         //save data
         $datasource = $this->Transaction->getDataSource();
-        $datasource->begin($this->Transaction);
+        $datasource->begin();
 
         $delTransactionResult     = $this->Transaction->deleteTransaction($id, $data);
         $updateSecondWalletResult = $this->Wallet->edit($secondWallet, $secondWalletId);
 
         if ($delTransactionResult && $updateSecondWalletResult) {
-            return $datasource->commit($this->Transaction);
+            return $datasource->commit();
         }
-        $datasource->rollback($this->Transaction);
+        $datasource->rollback();
         return false;
     }
 
