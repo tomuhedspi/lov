@@ -15,6 +15,7 @@ class CategoriesController extends AppController
      */
     public function viewTransactionsInCategory($categoryId)
     {
+        //get user id
         $userId = $this->Auth->user('id');
         $data      = $this->Category->getCategoryById($userId, $categoryId);
         $transList = $this->Transaction->getTransactionsInCategory($userId, $categoryId);
@@ -87,7 +88,7 @@ class CategoriesController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
+        //get user id
         $userId = $this->Auth->user('id');
 
         $targetCategory = $this->Category->getCategoryById($userId, $id);
@@ -133,7 +134,7 @@ class CategoriesController extends AppController
             $this->Session->setFlash(__('Sorry!Something Occur When We Passing Category Id!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //auth user have logged in  yet
+        //get user id
         $userId = $this->Auth->user('id');
         //check if selected category belong user
         if (!$this->Category->categoryBelongUser($userId, $id)) {

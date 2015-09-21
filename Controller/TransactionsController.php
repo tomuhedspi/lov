@@ -19,7 +19,7 @@ class TransactionsController extends AppController
     public function addInCategory($categoryId)
     {
         // get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         $walletId     = $this->Auth->user('using_wallet');
         //check if wallet belongs current user
         $selectWallet = $this->Wallet->walletBelongUser($userId, $walletId);
@@ -81,8 +81,8 @@ class TransactionsController extends AppController
      */
     public function viewByCategory()
     {
-        // Check if user logged in
-        $userId = $this->Auth->user('id');
+        // get user id
+        $userId       = $this->Auth->user('id');
         //show category list for user to select
         $categoryList = $this->Category->getCategoryNameIDList($userId);
         $this->set(array('categoryList' => $categoryList));
@@ -105,7 +105,7 @@ class TransactionsController extends AppController
     public function monthReport()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId       = $this->Auth->user('id');
         //get transaction of user in this month
         $end          = date('Y-m-d');
         $start        = date('Y-m-d', strtotime('-1 month'));
@@ -130,7 +130,7 @@ class TransactionsController extends AppController
     public function rankByDate()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId    = $this->Auth->user('id');
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactionsDateRank($userId);
         //set view
@@ -148,8 +148,8 @@ class TransactionsController extends AppController
             $this->Session->setFlash(__('Sorry!Sending Transaction Id Failed!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        // Check if user logged in
-        $userId = $this->Auth->user('id');
+        //get user id
+        $userId            = $this->Auth->user('id');
         //check and get data of seleected transaction  id
         $selectTransaction = $this->Transaction->transactionBelongUser($userId, $id);
         if (!$selectTransaction) {
@@ -222,7 +222,7 @@ class TransactionsController extends AppController
             $this->Session->setFlash(__('Sorry!Sending Transaction Id Failed!Please Try Later'), 'alert_box', array('class' => 'alert-danger'));
             return;
         }
-        //step 2: check user is logged in?
+        //step 2: get user id
         $userId = $this->Auth->user('id');
         //step 3: check valid input method
         if (!$this->request->is(array('post', 'put'))) {
@@ -280,26 +280,26 @@ class TransactionsController extends AppController
             return false;
         }
         //save data
-        $datasource     = $this->Transaction->getDataSource();
+        $datasource = $this->Transaction->getDataSource();
         $datasource->begin($this->Transaction);
-        
-        $delTransactionResult = $this->Transaction->deleteTransaction($id, $data);
-        $updateSecondWalletResult =  $this->Wallet->edit($secondWallet, $secondWalletId) ; 
-        
-        if($delTransactionResult&&$updateSecondWalletResult){
+
+        $delTransactionResult     = $this->Transaction->deleteTransaction($id, $data);
+        $updateSecondWalletResult = $this->Wallet->edit($secondWallet, $secondWalletId);
+
+        if ($delTransactionResult && $updateSecondWalletResult) {
             return $datasource->commit($this->Transaction);
         }
-           $datasource->rollback($this->Transaction);   
-           return false;
-        }
+        $datasource->rollback($this->Transaction);
+        return false;
+    }
 
     /**
      * get data from user and add a new transaction
      */
     public function add()
     {
-        // Check if user logged in
-        $userId = $this->Auth->user('id');
+        // get user id
+        $userId       = $this->Auth->user('id');
         //get wallet and category list then echo to user
         $walletList   = $this->Wallet->getWalletNameIDList($userId);
         $categoryList = $this->Category->getCategoryNameIDList($userId);
@@ -352,7 +352,7 @@ class TransactionsController extends AppController
             $this->redirect(array('action' => 'index'));
         } else {
             $this->_setAlertMessage(__('Temporary Cannot Add Transaction, Please Try Later!'));
-             $this->redirect(array('action' => 'index'));
+            $this->redirect(array('action' => 'index'));
         }
     }
 
@@ -362,7 +362,7 @@ class TransactionsController extends AppController
     public function index()
     {
         //get user id
-        $userId = $this->Auth->user('id');
+        $userId    = $this->Auth->user('id');
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactions($userId);
         //set view
