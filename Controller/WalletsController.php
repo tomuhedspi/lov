@@ -12,10 +12,6 @@ class WalletsController extends AppController
     public function setCurrentWallet($walletId)
     {   //check current user
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //check input method
         if (!$this->request->is(array('post', 'put'))) {
             return;
@@ -43,10 +39,6 @@ class WalletsController extends AppController
     {
         //get current user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //get wallet list then echo to user
         $walletList = $this->Wallet->getWalletNameIDList($userId);
         $emptyFrom  = ''; //notice to select wallet
@@ -154,10 +146,6 @@ class WalletsController extends AppController
         }
         //auth user have logged in  yet
         $id = $this->Auth->user('id');
-        if ($id == null) {
-            $this->Session->setFlash("Please Loggin First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
 
         $selectedOne = $this->Wallet->getSelectedById($walletId);
         if ($selectedOne) {
@@ -200,11 +188,6 @@ class WalletsController extends AppController
     {
         //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            //$this->Session->setFlash("Please Loggin Before See Wallet List!");
-            $this->_setAlertMessage(__('Please Loggin Before See Wallet List!'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
 
         //get user using wallet id :$usingWallet
         $usingWallet = $this->User->getUsingWallet($userId);
@@ -231,10 +214,6 @@ class WalletsController extends AppController
         }
         //get user id   
         $id = $this->Auth->user('id');
-        if ($id == NULL) {
-            $this->Session->setFlash('Please Login And Try Again!');
-            return;
-        }
         // Validate inputs
         $this->Wallet->set($this->request->data);
         $valid = $this->Wallet->validates();
@@ -268,10 +247,10 @@ class WalletsController extends AppController
         }
         //auth user have logged in  yet
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin And Try Again!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
+//        if ($userId == null) {
+//            $this->Session->setFlash("Please Loggin And Try Again!");
+//            $this->redirect(array('controller' => 'users', 'action' => 'login'));
+//        }
         //check if are there any transaction related with selected wallet
         if ($this->Transaction->transactionBelongWallet($id)) {
             $this->_setAlertMessage(__('Cannot Delete This Category, There Are Transactions Related To It!'));

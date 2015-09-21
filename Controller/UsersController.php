@@ -18,10 +18,6 @@ class UsersController extends AppController
         }
         //check if user logged in and get user name
         $username = $this->Auth->user('username');
-        if (!$username) {
-            $this->_setAlertMessage(__('Please Login First !'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         $img = $this->request->data['Image']['img'];
         //check if upload file does not get any error
         if ($img['error'] > 0) {
