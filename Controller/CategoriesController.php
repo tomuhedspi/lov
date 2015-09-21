@@ -30,7 +30,7 @@ class CategoriesController extends AppController
         $incomeType = 1;
         $expensType = 0;
 
-        //get user id
+        //get iser id
         $id = $this->Auth->user('id');
 
         $incomeList = $this->Category->getCategoriesByType($id, $incomeType);

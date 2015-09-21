@@ -12,7 +12,7 @@ class UsersController extends AppController
      */
     public function edit()
     {
-        //check valid input method
+        //check valid input method 
         if (!$this->request->is(array('post', 'put'))) {
             return;
         }
