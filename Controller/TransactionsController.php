@@ -20,10 +20,6 @@ class TransactionsController extends AppController
     {
         // Check if user logged in
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Login First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         $walletId     = $this->Auth->user('using_wallet');
         //check if wallet belongs current user
         $selectWallet = $this->Wallet->walletBelongUser($userId, $walletId);
@@ -87,10 +83,6 @@ class TransactionsController extends AppController
     {
         // Check if user logged in
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Login First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //show category list for user to select
         $categoryList = $this->Category->getCategoryNameIDList($userId);
         $this->set(array('categoryList' => $categoryList));
@@ -114,10 +106,6 @@ class TransactionsController extends AppController
     {
         //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin Before See Transaction List!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //get transaction of user in this month
         $end          = date('Y-m-d');
         $start        = date('Y-m-d', strtotime('-1 month'));
@@ -143,10 +131,6 @@ class TransactionsController extends AppController
     {
         //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->_setAlertMessage(__('Sorry!Sending Transaction Id Failed!Please Try Later'));
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactionsDateRank($userId);
         //set view
@@ -166,10 +150,6 @@ class TransactionsController extends AppController
         }
         // Check if user logged in
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Login First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //check and get data of seleected transaction  id
         $selectTransaction = $this->Transaction->transactionBelongUser($userId, $id);
         if (!$selectTransaction) {
@@ -244,10 +224,6 @@ class TransactionsController extends AppController
         }
         //step 2: check user is logged in?
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("You Are Logging Out, Please Login First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //step 3: check valid input method
         if (!$this->request->is(array('post', 'put'))) {
             return;
@@ -280,10 +256,6 @@ class TransactionsController extends AppController
     {
         // Check if user logged in
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Login First!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //get wallet and category list then echo to user
         $walletList   = $this->Wallet->getWalletNameIDList($userId);
         $categoryList = $this->Category->getCategoryNameIDList($userId);
@@ -348,10 +320,6 @@ class TransactionsController extends AppController
     {
         //get user id
         $userId = $this->Auth->user('id');
-        if ($userId == null) {
-            $this->Session->setFlash("Please Loggin Before See Transaction List!");
-            $this->redirect(array('controller' => 'users', 'action' => 'login'));
-        }
         //get user's transaction list
         $transList = $this->Transaction->getUserTransactions($userId);
         //set view
